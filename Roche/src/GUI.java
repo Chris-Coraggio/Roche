@@ -39,7 +39,6 @@ public class GUI extends javax.swing.JFrame {
 					e.printStackTrace();
 				}
     	    }	
-    	    System.out.println("HI");
     	    pictureLabel.setIcon(picture);
     	}
     }
@@ -99,7 +98,7 @@ public class GUI extends javax.swing.JFrame {
 
         jLabel4.setText("Desired Tests:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4" }));
 
         jCheckBox1.setText("jCheckBox1");
 
@@ -114,7 +113,12 @@ public class GUI extends javax.swing.JFrame {
         jButton1.setText("Generate Label");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                try {
+					jButton1ActionPerformed(evt);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
 
@@ -207,10 +211,11 @@ public class GUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>                        
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) throws IOException{
     	ArrayList<String> tests = compileTests();
-        Document d = new Document(jLabel1.getText(), jLabel2.getText(), Integer.parseInt(jLabel3.getText()), tests, (javax.swing.ImageIcon)picture,
+        Document d = new Document(jTextArea1.getText(), jTextField1.getText(), Integer.parseInt(jComboBox1.getSelectedItem().toString()), tests, (javax.swing.ImageIcon)picture,
         		"Name", "Contact");
+        d.makeLabel();
     }        
     
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt){
