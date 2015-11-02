@@ -17,9 +17,19 @@ import org.opencv.videoio.VideoCapture;
 
 public class GUI extends javax.swing.JFrame {
 
-    private Icon picture = null; //instance of picture after most recent picture taken
+	private static final long serialVersionUID = 1L;
+	private Icon picture = null; //instance of picture after most recent picture taken
+    private String name, contact; //name and contact of whoever logs in
     
-    public GUI() {
+    public GUI(){
+    	new GUI("Name", "Contact");
+    }
+    
+    /*Change writing to csv file to include description and fix it later*/
+    
+    public GUI(String name, String contact) {
+    	this.name = name;
+    	this.contact = contact;
         initComponents();
         this.setVisible(true);
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);

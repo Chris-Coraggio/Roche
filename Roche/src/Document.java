@@ -37,7 +37,7 @@ public class Document {
 		f.close();
 	}
 	
-	public int generateID(){
+	public int generateID(){ //WILL - override this method :)
 		return 0;
 	}
 	
