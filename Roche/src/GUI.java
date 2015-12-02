@@ -5,17 +5,15 @@ import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.videoio.VideoCapture;
 
-public class GUI extends javax.swing.JFrame {
+public class GUI extends javax.swing.JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private Icon picture = null; //instance of picture after most recent picture taken
@@ -96,7 +94,7 @@ public class GUI extends javax.swing.JFrame {
         jTextArea1 = new javax.swing.JTextArea();
         jButton2 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jScrollPane1.setViewportView(pictureLabel);
 
@@ -245,18 +243,6 @@ public class GUI extends javax.swing.JFrame {
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {                                            
         // TODO add your handling code here:
     }                                           
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GUI().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify                     
     private javax.swing.JButton jButton1;

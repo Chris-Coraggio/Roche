@@ -1,10 +1,12 @@
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class LoginGUI extends javax.swing.JFrame{
+public class LoginGUI extends javax.swing.JDialog{
 	
 	//seems to be recording values in txt file better but GUI still fails to initialize
 	//check reading and writing methods
+	//fix setValues()
 
 	    private String name = "";
 	    private String email = "";
@@ -15,9 +17,16 @@ public class LoginGUI extends javax.swing.JFrame{
 	    private final java.io.File FILE = new java.io.File("" + System.getProperty("user.home") + "/Desktop/file.txt");
 	    private java.io.BufferedWriter write;
 	    private java.io.BufferedReader read; 
+	    private boolean isFinished;
+	    
 	    public LoginGUI() {
 	        initComponents();
+	        isFinished = false;
 	        this.setVisible(true);
+	        while(! isFinished()){
+	        	System.out.println(isFinished());
+	        	if(isFinished()) break;
+	        }
 	    }
                           
 	    private void initComponents() {
@@ -51,7 +60,7 @@ public class LoginGUI extends javax.swing.JFrame{
 	        jScrollPane1 = new javax.swing.JScrollPane();
 	        warnings = new javax.swing.JTextArea();
 
-	        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+	        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
 	        jLabel1.setText("Welcome to the Roche Sample Annotator! Please log in.");
 
@@ -192,9 +201,12 @@ public class LoginGUI extends javax.swing.JFrame{
 	        //log in
 	    	if(passwordsAreEquivalent(jPasswordField1.getPassword(), getPassword(jTextField1.getText()))){
 	    		name = getName(jTextField1.getText());
+	    		System.out.println("NAME:   " + name);
 	    		email = getContact(jTextField1.getText());
-	    	GUI g = new GUI(name, email);
-	    	this.setVisible(false);
+	    		System.out.println("EMAIL:  " + email);
+	    		isFinished = true;
+	    		System.out.println("isFinished reset");
+	    	this.dispose();
 	    	}else warnings.setText("Username or password is incorrect. Please try again.");
 	    }                                        
 
@@ -215,7 +227,7 @@ public class LoginGUI extends javax.swing.JFrame{
 	    	username = jTextField4.getText();
 	    	password = charToString(jPasswordField3.getPassword());
 	    	writeToDatabase(name, email, username, password);
-	    	this.setVisible(false);
+	    	this.dispose();
 	    	(new LoginGUI()).setVisible(true);
 	    	}
 	    }
@@ -232,9 +244,13 @@ public class LoginGUI extends javax.swing.JFrame{
 	    
 	    private boolean passwordsAreEquivalent(char[] c, char[] d){
 	    	boolean b = true;
+	    	if(c.length != d.length) b = false;
+	    	else{
 	    	for(int i = 0; i < c.length - 1; i++){
 	    		if(c[i] != d[i]) b = false;
 	    	}
+	    	}
+	    	if(c.length < 1 || d.length < 1) b = false;
 	    	return b;
 	    }
 	    
@@ -266,7 +282,7 @@ public class LoginGUI extends javax.swing.JFrame{
 	    		temp = passwords.get(usernames.indexOf(u));
 	    	return toCharArray(temp);
 	    	}
-	    	return null;
+	    	return new char[]{'*'};
 	    }
 	    
 	    private char[] toCharArray(String s){
@@ -291,7 +307,18 @@ public class LoginGUI extends javax.swing.JFrame{
 	    private boolean isUsernameTaken(String username){
 	    	return false; //fix this later
 	    }
+	    
+	    public boolean isFinished(){
+	    	return isFinished;
+	    }
+	    
+	    public String getName(){
+	    	return name;
+	    }
 
+	    public String getContact(){
+	    	return email;
+	    }
 	    // Variables declaration - do not modify                     
 	    private javax.swing.JButton jButton1;
 	    private javax.swing.JButton jButton2;
