@@ -6,7 +6,6 @@ public class LoginGUI extends javax.swing.JDialog{
 	
 	//seems to be recording values in txt file better but GUI still fails to initialize
 	//check reading and writing methods
-	//fix setValues()
 
 	    private String name = "";
 	    private String email = "";
@@ -23,10 +22,21 @@ public class LoginGUI extends javax.swing.JDialog{
 	        initComponents();
 	        isFinished = false;
 	        this.setVisible(true);
-	        while(! isFinished()){
-	        	System.out.println(isFinished());
-	        	if(isFinished()) break;
+	        while(true){
+	        	try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	        	System.out.println(isFinished);
+	        	if(isFinished == true){
+	        		System.out.println("MAde it");
+	        		this.dispose();
+	        		break;
+	        	}
 	        }
+	        System.out.println("SHould have launched");
 	    }
                           
 	    private void initComponents() {
@@ -205,8 +215,7 @@ public class LoginGUI extends javax.swing.JDialog{
 	    		email = getContact(jTextField1.getText());
 	    		System.out.println("EMAIL:  " + email);
 	    		isFinished = true;
-	    		System.out.println("isFinished reset");
-	    	this.dispose();
+	    		System.out.println("LOGGED IN: " + isFinished);
 	    	}else warnings.setText("Username or password is incorrect. Please try again.");
 	    }                                        
 
@@ -227,8 +236,7 @@ public class LoginGUI extends javax.swing.JDialog{
 	    	username = jTextField4.getText();
 	    	password = charToString(jPasswordField3.getPassword());
 	    	writeToDatabase(name, email, username, password);
-	    	this.dispose();
-	    	(new LoginGUI()).setVisible(true);
+	    	isFinished = true;
 	    	}
 	    }
 	    
@@ -306,10 +314,6 @@ public class LoginGUI extends javax.swing.JDialog{
 	    
 	    private boolean isUsernameTaken(String username){
 	    	return false; //fix this later
-	    }
-	    
-	    public boolean isFinished(){
-	    	return isFinished;
 	    }
 	    
 	    public String getName(){

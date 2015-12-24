@@ -1,7 +1,9 @@
 public class Driver {
 	
 	public static void main(String[] args) {
+		while(true){
 		LoginGUI l = new LoginGUI();
-		GUI g = new GUI(l.getName(), l.getContact());
+		new GUI(l.getName(), l.getContact());
+		}
 	}
 }
