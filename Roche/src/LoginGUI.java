@@ -3,9 +3,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class LoginGUI extends javax.swing.JDialog{
-	
-	//seems to be recording values in txt file better but GUI still fails to initialize
-	//check reading and writing methods
 
 	    private String name = "";
 	    private String email = "";
