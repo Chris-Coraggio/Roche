@@ -38,7 +38,22 @@ public class Document {
 	}
 	
 	public int generateID(){ //WILL - override this method :)
-		return 0;
+		int genID = 0;
+		File h = new File("C://Users//williamhahn//Desktop//willthiswork.csv");
+		if (h.exists()){
+			FileReader j = new FileReader(h);
+			if (j.read() != -1){
+				genID = j.read();	
+			}
+			j.close();
+			genID += 1;
+			System.out.println(genID);
+		}
+		
+		FileWriter g = new FileWriter(h);
+		g.write(Integer.toString(genID));
+		g.close();
+		return genID;
 	}
 	
 }
