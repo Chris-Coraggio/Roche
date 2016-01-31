@@ -44,7 +44,7 @@ public class GUI extends javax.swing.JDialog {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     	VideoCapture camera = new VideoCapture(0);
     	while(true){
-    		System.out.println(isFinished);
+    		//System.out.println(isFinished);
     		if(isFinished == true){
         		System.out.println("Swaggin it out");
         		this.dispose();
@@ -63,7 +63,7 @@ public class GUI extends javax.swing.JDialog {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-    	    	System.out.println("In second while loop");
+    	    	//System.out.println("In second while loop");
     	    	if(isFinished == true){
             		System.out.println("Swaggin it out");
             		this.dispose();

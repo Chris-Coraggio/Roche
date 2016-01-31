@@ -12,7 +12,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -98,33 +100,34 @@ public class Document {
 	        g.drawString(line, x, y += g.getFontMetrics().getHeight());
 	}
 	
-	public int generateID() throws IOException{ //WILL - override this method :)
-		int genID = 0;
-		File h = new File(System.getProperty("user.home") + "/Desktop//Roche//willthiswork.csv");
-		if (h.exists()){
-			FileReader j = new FileReader(h);
-			if (j.read() != -1){
-				genID = j.read();	
-			}
-			j.close();
-			genID += 1;
-			System.out.println(genID);
+	public int generateID() throws IOException{ //Will - override
+		int num = 0;
+		File file = new File(System.getProperty("user.home") + "//Desktop//Roche//idCounter.txt");
+		System.out.println("YO: " + file.exists());
+		PrintWriter writer = new PrintWriter(file);
+		java.util.Scanner scan = new java.util.Scanner(file);
+		try{
+		num = Integer.parseInt(scan.nextLine());
+		}catch(NoSuchElementException err){
+			writer.write("0");
 		}
-		
-		FileWriter g = new FileWriter(h);
-		g.write(Integer.toString(genID));
-		g.close();
-		return genID;
+		num++;
+		file.delete();
+		writer.write(Integer.toString(num));
+		writer.close();
+		scan.close();
+		return num;
 	}
 	
 	
 	public String toString(){
-		return( "\nSample Name:\t" + sampleName +
+		return( "\nID:\t" + problemID +
+				"\nSample Name:\t" + sampleName +
 				"\nDescription:\t" + description +
 				"\nCharge Number:\t" + chargeNumber +
 				"\nDesired Tests:\t" + desiredTests +
 				"\nSubmitter Name:\t" + submitterName +
-				"\nSubmitter Contact:\t" + submitterContact +
-				"\nID:\t" + problemID);
+				"\nSubmitter Contact:\t" + submitterContact
+				);
 	}
 }

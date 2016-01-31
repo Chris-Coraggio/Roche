@@ -7,3 +7,20 @@ public class Driver {
 		}
 	}
 }
+
+/* TO DO LIST
+ * 
+ * William
+ * 
+ * ID Generator (in Document)
+ * Pulldown for preestablished users (find that text file)
+ * 
+ * Chris
+ * 
+ * Update Contact (email and phone number)
+ * Folder browsing (only initial run-through)
+ * Save in folders by project number
+ * "New project" option
+ * Cumulative Spreadsheet
+ * 
+ */
