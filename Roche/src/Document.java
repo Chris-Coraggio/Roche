@@ -30,28 +30,30 @@ public class Document {
 	public static ImageIcon picture;
 	private int problemID;
 	private String submitterName;
-	private String submitterContact;
+	private String submitterPhone;
+	private String submitterEmail;
 	
 	//Fix annotation of image
 	
 	public Document(){}
 	
 	public Document(String sampleName, String description, int chargeNumber, ArrayList<String> desiredTests,
-			ImageIcon picture, String submitterName, String submitterContact) throws IOException{
+			ImageIcon picture, String submitterName, String submitterPhone, String submitterEmail) throws IOException{
 		this.sampleName = sampleName;
 		this.description = description;
 		this.chargeNumber = chargeNumber;
 		this.desiredTests = desiredTests;
 		this.picture = picture;
 		this.submitterName = submitterName;
-		this.submitterContact = submitterContact;
+		this.submitterPhone = submitterPhone;
+		this.submitterEmail = submitterEmail;
 		this.problemID = generateID();
 	}
 	
 	public void makeLabel() throws java.io.IOException{
 		FileWriter f = new FileWriter(new File(System.getProperty("user.home") + "//Desktop//Roche//blah.csv"));
-		f.write("Sample Name, Charge Number, Submitter Name, Submitter Contact, Problem ID\n");
-		f.write("" + sampleName + ", " + chargeNumber + ", " + submitterName + ", " + submitterContact + "\n");
+		f.write("Sample Name, Charge Number, Submitter Name, Submitter Phone, Submitter Email, Problem ID\n");
+		f.write("" + sampleName + ", " + chargeNumber + ", " + submitterName + ", " + submitterPhone + ", " + submitterEmail + "\n");
 		f.close();
 		annotatePicture();
 	}
@@ -70,8 +72,7 @@ public class Document {
 	}
 	
 	public void annotatePicture() throws IOException{
-		int x, y; //start of square and text
-		// http://research.cs.queensu.ca/~blostein/java.html
+		final int WIDTH;
 		JButton label = new JButton(this.toString(), picture);
 		label.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 		label.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -81,18 +82,27 @@ public class Document {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-        BufferedImage image = ImageIO.read(new File(path + "-modified.bmp"));
-        x = image.getWidth() * 2/3;
-        y = image.getHeight() * 2/3;
-        Graphics g = image.getGraphics();
+		System.out.println(path);
+        BufferedImage image = ImageIO.read(new File(path));
+        BufferedImage imageWithMargins = new BufferedImage(image.getWidth() * 4/3, image.getHeight(), image.getType());
+        /*
+        Graphics g = newImage.getGraphics();
+
+        g.setColor(Color.white);
+        g.fillRect(0,0,image.getWidth()+2*w,image.getHeight());
+        g.drawImage(image, w, 0, null);
+        g.dispose();
+        */
+        Graphics g = imageWithMargins.getGraphics();
+        g.drawImage(image, 0, 0, null);
         g.setColor(Color.WHITE);
-        g.fillRect(x, y, image.getWidth() /3, image.getHeight() /3);
+        g.fillRect(image.getWidth(), 0, image.getWidth() /3, image.getHeight());
         g.setColor(Color.BLACK);
         g.setFont(new Font("TimesRoman", Font.PLAIN, 12));
-        drawTheString(g, this.toString(), image.getWidth() * 2 /3, image.getHeight() * 2 /3);
+        drawTheString(g, this.toString(), image.getWidth() , 0);
         g.dispose();
         
-        ImageIO.write(image, "jpg", new File(path + "-modified.jpg"));
+        ImageIO.write(imageWithMargins, "jpg", new File(path.substring(0, path.indexOf(".jpg")) + "-modified.jpg"));
 	}
 	
 	void drawTheString(Graphics g, String text, int x, int y) {
@@ -127,7 +137,8 @@ public class Document {
 				"\nCharge Number:\t" + chargeNumber +
 				"\nDesired Tests:\t" + desiredTests +
 				"\nSubmitter Name:\t" + submitterName +
-				"\nSubmitter Contact:\t" + submitterContact
+				"\nSubmitter Phone:\t" + submitterPhone +
+				"\nSubmitter Email:\t" + submitterEmail
 				);
 	}
 }

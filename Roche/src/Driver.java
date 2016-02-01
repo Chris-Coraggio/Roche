@@ -17,7 +17,6 @@ public class Driver {
  * 
  * Chris
  * 
- * Update Contact (email and phone number)
  * Folder browsing (only initial run-through)
  * Save in folders by project number
  * "New project" option
