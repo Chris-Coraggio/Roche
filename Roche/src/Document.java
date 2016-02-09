@@ -33,8 +33,6 @@ public class Document {
 	private String submitterPhone;
 	private String submitterEmail;
 	
-	//Fix annotation of image
-	
 	public Document(){}
 	
 	public Document(String sampleName, String description, int chargeNumber, ArrayList<String> desiredTests,
@@ -51,7 +49,7 @@ public class Document {
 	}
 	
 	public void makeLabel() throws java.io.IOException{
-		FileWriter f = new FileWriter(new File(System.getProperty("user.home") + "//Desktop//Roche//blah.csv"));
+		FileWriter f = new FileWriter(new File(Driver.getMasterFolder() + "//blah.csv"));
 		f.write("Sample Name, Charge Number, Submitter Name, Submitter Phone, Submitter Email, Problem ID\n");
 		f.write("" + sampleName + ", " + chargeNumber + ", " + submitterName + ", " + submitterPhone + ", " + submitterEmail + "\n");
 		f.close();
@@ -67,12 +65,11 @@ public class Document {
 			// paint the picture to the BufferedImage
 			picture.paintIcon(null, g, 0,0);
 			g.dispose();
-		ImageIO.write(bi, "jpg", new File(System.getProperty("user.home") + "\\Desktop\\Roche\\" + name + ".jpg"));
-		return(System.getProperty("user.home") + "\\Desktop\\Roche\\" + name + ".jpg");
+		ImageIO.write(bi, "jpg", new File(Driver.getMasterFolder() + name + ".jpg"));
+		return(Driver.getMasterFolder() + name + ".jpg");
 	}
 	
 	public void annotatePicture() throws IOException{
-		final int WIDTH;
 		JButton label = new JButton(this.toString(), picture);
 		label.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 		label.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -98,8 +95,8 @@ public class Document {
         g.setColor(Color.WHITE);
         g.fillRect(image.getWidth(), 0, image.getWidth() /3, image.getHeight());
         g.setColor(Color.BLACK);
-        g.setFont(new Font("TimesRoman", Font.PLAIN, 12));
-        drawTheString(g, this.toString(), image.getWidth() , 0);
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 18));
+        drawTheString(g, this.toString(), image.getWidth(), 0);
         g.dispose();
         
         ImageIO.write(imageWithMargins, "jpg", new File(path.substring(0, path.indexOf(".jpg")) + "-modified.jpg"));

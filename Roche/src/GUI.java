@@ -1,10 +1,18 @@
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.awt.image.WritableRaster;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,6 +22,7 @@ import java.util.TimerTask;
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 
 import java.util.Timer;
@@ -22,12 +31,13 @@ import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.videoio.VideoCapture;
 
-public class GUI extends javax.swing.JDialog {
+public class GUI extends javax.swing.JDialog{
 
 	private static final long serialVersionUID = 1L;
 	private Icon picture = null; //instance of picture after most recent picture taken
     private String name, contact; //name and contact of whoever logs in
     private boolean isFinished = false;
+    private int projectNumber;
     
     public GUI(){
     	new GUI("Name", "Contact");
@@ -40,7 +50,22 @@ public class GUI extends javax.swing.JDialog {
     	this.name = name;
     	this.contact = contact;
         initComponents();
+        try {
+			initProjectNumber();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
         this.setVisible(true);
+        addWindowListener(new WindowAdapter()
+        {
+            @Override
+            public void windowClosing(WindowEvent e)
+            {
+                System.out.println("Bye, Felicia!");
+                System.exit(1); //Even this doesn't end it completely for some reason
+            }
+        });
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     	VideoCapture camera = new VideoCapture(0);
     	while(true){
@@ -73,6 +98,30 @@ public class GUI extends javax.swing.JDialog {
     	    pictureLabel.setIcon(picture);
     	}
     	}
+    }
+    
+    public void initProjectNumber() throws IOException{
+    	BufferedWriter pw = null;
+		File logFile = new File(Driver.getMasterFolder() + "/projectNumber.txt");
+		BufferedReader br = null;
+		try{
+		br = new BufferedReader(new FileReader(logFile));
+		}catch (FileNotFoundException e){
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		pw = new BufferedWriter(new FileWriter(logFile));
+		System.out.println("Crisis averted");
+		}
+		try{
+			this.projectNumber = Integer.parseInt(br.readLine());
+			br.close();
+		}catch(java.lang.NullPointerException err){
+			//if the file contains no text, set first project number
+			pw = new BufferedWriter(new FileWriter(logFile));
+	        pw.write("1");
+	        this.projectNumber = 1;
+		    pw.close();
+		}
     }
     
 	public static BufferedImage createAwtImage(Mat mat) {
@@ -108,6 +157,7 @@ public class GUI extends javax.swing.JDialog {
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox();
         jCheckBox1 = new javax.swing.JCheckBox();
         jCheckBox2 = new javax.swing.JCheckBox();
@@ -126,8 +176,7 @@ public class GUI extends javax.swing.JDialog {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        jButton5 = new javax.swing.JButton();
 
         jScrollPane1.setViewportView(pictureLabel);
 
@@ -180,7 +229,7 @@ public class GUI extends javax.swing.JDialog {
             }
         });
 
-        jLabel6.setFont(new java.awt.Font("Sylfaen", 3, 24)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Sylfaen", 3, 24));
         jButton3.setText("Reset Camera");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -195,7 +244,15 @@ public class GUI extends javax.swing.JDialog {
         	}
         });
         
+        jButton5.setText("Start New Project");
+        jButton5.addActionListener(new java.awt.event.ActionListener(){
+        	public void actionPerformed(java.awt.event.ActionEvent e){
+        		jButton5ActionPerformed(e);
+        	}
+        });
+        
         jLabel7.setText("Logged in as: " + name);
+        jLabel8.setText("Project Number:  " + this.projectNumber);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -244,7 +301,10 @@ public class GUI extends javax.swing.JDialog {
                             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jButton4)
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton5)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -299,13 +359,20 @@ public class GUI extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jButton4))
-                .addGap(6, 6, 6))
-        );
+                    .addComponent(jButton4)
+                    .addComponent(jButton5)
+                    .addComponent(jLabel8))
+                .addGap(6, 6, 6)));
         pack();
     }// </editor-fold>                        
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) throws IOException{ //generate label
+    private int exitSystem() {
+    	System.out.println("Bye Felicia!");
+		System.exit(99);
+		return 0;
+	}
+
+	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) throws IOException{ //generate label
     	ArrayList<String> tests = compileTests();
         Document d = new Document(jTextArea1.getText(), jTextField1.getText(), Integer.parseInt(jComboBox1.getSelectedItem().toString()), tests, (javax.swing.ImageIcon)picture,
         		"Name", "3171234567", "google@google.com");
@@ -328,6 +395,11 @@ public class GUI extends javax.swing.JDialog {
     	isFinished = true;
     }
     
+    private void jButton5ActionPerformed(ActionEvent e) { //start new project
+		this.projectNumber++;
+		jLabel8.setText("Project Number:  " + this.projectNumber);
+	}
+    
     public ArrayList<String> compileTests(){
     	ArrayList<String> tests = new ArrayList<String>();
     	if(jCheckBox1.isSelected()) tests.add(jCheckBox1.getText());
@@ -347,6 +419,7 @@ public class GUI extends javax.swing.JDialog {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBox3;
@@ -364,6 +437,7 @@ public class GUI extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6; //notifications
     private javax.swing.JLabel jLabel7; //logged in as:
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;

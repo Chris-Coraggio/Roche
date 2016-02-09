@@ -6,11 +6,13 @@ public class LoginGUI extends javax.swing.JDialog{
 
 	    private String name = "";
 	    private String email = "";
+	    private String phoneNum = "";
 	    private ArrayList<String> usernames = new ArrayList<String>(); //already logged in usernames
 	    private ArrayList<String> passwords = new ArrayList<String>(); //preestablished passwords
+	    private ArrayList<String> phoneNums = new ArrayList<String>();
 	    private ArrayList<String> names = new ArrayList<String>();
 	    private ArrayList<String> emails = new ArrayList<String>();
-	    private final java.io.File FILE = new java.io.File("" + System.getProperty("user.home") + "/Desktop/file.txt");
+	    private final java.io.File FILE = new java.io.File(Driver.getMasterFolder() + "//file.txt");
 	    private java.io.BufferedWriter write;
 	    private java.io.BufferedReader read; 
 	    private boolean isFinished;
@@ -106,6 +108,8 @@ public class LoginGUI extends javax.swing.JDialog{
 	        warnings.setRows(5);
 	        jScrollPane1.setViewportView(warnings);
 
+	        jLabel10.setText("Phone:");
+
 	        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
 	        getContentPane().setLayout(layout);
 	        layout.setHorizontalGroup(
@@ -113,6 +117,10 @@ public class LoginGUI extends javax.swing.JDialog{
 	            .addGroup(layout.createSequentialGroup()
 	                .addContainerGap()
 	                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+	                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+	                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+	                        .addContainerGap())
+	                    .addComponent(jScrollPane1)
 	                    .addGroup(layout.createSequentialGroup()
 	                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 	                            .addGroup(layout.createSequentialGroup()
@@ -125,7 +133,24 @@ public class LoginGUI extends javax.swing.JDialog{
 	                                    .addComponent(jPasswordField1)))
 	                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
 	                            .addComponent(jButton1)
+	                            .addComponent(jButton2)
 	                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+	                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+	                                    .addComponent(jLabel10)
+	                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+	                                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
+	                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+	                                    .addComponent(jLabel7)
+	                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+	                                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
+	                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+	                                    .addComponent(jLabel8)
+	                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+	                                    .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
+	                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+	                                    .addComponent(jLabel9)
+	                                    .addGap(18, 18, 18)
+	                                    .addComponent(jPasswordField3, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
 	                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
 	                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 	                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -133,24 +158,8 @@ public class LoginGUI extends javax.swing.JDialog{
 	                                    .addGap(9, 9, 9)
 	                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
 	                                        .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
-	                                        .addComponent(jTextField2)))
-	                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-	                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-	                                        .addComponent(jLabel7)
-	                                        .addComponent(jLabel8)
-	                                        .addComponent(jLabel9))
-	                                    .addGap(18, 18, 18)
-	                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-	                                        .addComponent(jPasswordField3)
-	                                        .addComponent(jPasswordField2)
-	                                        .addComponent(jTextField4))))
-	                            .addComponent(jButton2))
-	                        .addGap(0, 0, Short.MAX_VALUE))
-	                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-	                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-	                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
-	                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-	                        .addContainerGap())))
+	                                        .addComponent(jTextField2)))))
+	                        .addGap(0, 0, Short.MAX_VALUE))))
 	        );
 	        layout.setVerticalGroup(
 	            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,37 +176,42 @@ public class LoginGUI extends javax.swing.JDialog{
 	                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
 	                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 	                .addComponent(jButton1)
-	                .addGap(18, 18, 18)
+	                .addGap(12, 12, 12)
 	                .addComponent(jLabel4)
-	                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+	                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
 	                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
 	                    .addComponent(jLabel5)
 	                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-	                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+	                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 	                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-	                    .addComponent(jLabel6)
-	                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-	                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-	                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-	                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-	                    .addComponent(jLabel7))
+	                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+	                    .addComponent(jLabel6))
 	                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
 	                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-	                    .addComponent(jLabel8)
-	                    .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-	                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+	                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+	                    .addComponent(jLabel10))
+	                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 	                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-	                    .addComponent(jLabel9)
-	                    .addComponent(jPasswordField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+	                    .addComponent(jLabel7)
+	                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+	                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+	                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+	                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+	                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+	                            .addComponent(jLabel8)
+	                            .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+	                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+	                        .addComponent(jLabel9))
+	                    .addComponent(jPasswordField3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
 	                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 	                .addComponent(jButton2)
 	                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 	                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-	                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+	                .addContainerGap())
 	        );
 
 	        pack();
-	    }// </editor-fold> 
+	    }// </editor-fold>   
                         
 
 	    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {                                            
@@ -230,16 +244,17 @@ public class LoginGUI extends javax.swing.JDialog{
 	    	}else{
 	    	name = jTextField2.getText();
 	    	email = jTextField3.getText();
+	    	phoneNum = jTextField5.getText();
 	    	username = jTextField4.getText();
 	    	password = charToString(jPasswordField3.getPassword());
-	    	writeToDatabase(name, email, username, password);
+	    	writeToDatabase(name, email, phoneNum, username, password);
 	    	isFinished = true;
 	    	}
 	    }
 	    
-	    private void writeToDatabase(String name, String email, String username, String password){
+	    private void writeToDatabase(String name, String email, String phoneNum, String username, String password){
 	    	try {
-				write.write("" + name + " " + email + " " + username + " " + password + "\n");
+				write.write("" + name + " " + email + " " + phoneNum + " " + username + " " + password + "\n");
 				write.flush();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -262,11 +277,14 @@ public class LoginGUI extends javax.swing.JDialog{
 	    private void readFromDatabase() throws IOException{
 	    	String s = "";
 	    	while((s = read.readLine()) != null){
-	    		System.out.println(s.substring(0, s.indexOf(" ")));
+	    	System.out.println(s.substring(0, s.indexOf(" ")));
 	    	names.add(s.substring(0, s.indexOf(" ")));
 	    	s = s.substring(s.indexOf(" ") + 1);
 	    	System.out.println(s.substring(0, s.indexOf(" ")));
 	    	emails.add(s.substring(0, s.indexOf(" ")));
+	    	s = s.substring(s.indexOf(" ") + 1);
+	    	System.out.println(s.substring(0, s.indexOf(" ")));
+	    	phoneNums.add(s.substring(0, s.indexOf(" ")));
 	    	s = s.substring(s.indexOf(" ") + 1);
 	    	System.out.println(s.substring(0, s.indexOf(" ")));
 	    	usernames.add(s.substring(0, s.indexOf(" ")));
@@ -320,6 +338,7 @@ public class LoginGUI extends javax.swing.JDialog{
 	    public String getContact(){
 	    	return email;
 	    }
+	    
 	    // Variables declaration - do not modify                     
 	    private javax.swing.JButton jButton1;
 	    private javax.swing.JButton jButton2;
@@ -332,6 +351,7 @@ public class LoginGUI extends javax.swing.JDialog{
 	    private javax.swing.JLabel jLabel7;
 	    private javax.swing.JLabel jLabel8;
 	    private javax.swing.JLabel jLabel9;
+	    private javax.swing.JLabel jLabel10 = new javax.swing.JLabel(); //phone number
 	    private javax.swing.JPasswordField jPasswordField1;
 	    private javax.swing.JPasswordField jPasswordField2;
 	    private javax.swing.JPasswordField jPasswordField3;
@@ -341,5 +361,6 @@ public class LoginGUI extends javax.swing.JDialog{
 	    private javax.swing.JTextField jTextField2;
 	    private javax.swing.JTextField jTextField3;
 	    private javax.swing.JTextField jTextField4;
+	    private javax.swing.JTextField jTextField5 = new javax.swing.JTextField(); //phone number
 	    // End of variables declaration                   
 	}
