@@ -49,8 +49,9 @@ public class Document {
 	}
 	
 	public void makeLabel() throws java.io.IOException{
-		FileWriter f = new FileWriter(new File(Driver.getMasterFolder() + "//blah.csv"));
-		f.write("Sample Name, Charge Number, Submitter Name, Submitter Phone, Submitter Email, Problem ID\n");
+		boolean fileExists = new File(Driver.getMasterFolder() + "//blah.csv").exists();
+		FileWriter f = new FileWriter(new File(Driver.getMasterFolder() + "//blah.csv"), true); //appends
+		if(! fileExists) f.write("Sample Name, Charge Number, Submitter Name, Submitter Phone, Submitter Email, Problem ID\n");
 		f.write("" + sampleName + ", " + chargeNumber + ", " + submitterName + ", " + submitterPhone + ", " + submitterEmail + "\n");
 		f.close();
 		annotatePicture();
@@ -65,8 +66,8 @@ public class Document {
 			// paint the picture to the BufferedImage
 			picture.paintIcon(null, g, 0,0);
 			g.dispose();
-		ImageIO.write(bi, "jpg", new File(Driver.getMasterFolder() + name + ".jpg"));
-		return(Driver.getMasterFolder() + name + ".jpg");
+		ImageIO.write(bi, "jpg", new File(Driver.getSubFolder() + "/" + name + ".jpg"));
+		return(Driver.getSubFolder() + "/" + name + ".jpg");
 	}
 	
 	public void annotatePicture() throws IOException{
@@ -75,7 +76,7 @@ public class Document {
 		label.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		String path = "";
 		try {
-			path = savePicture("test2");
+			path = savePicture(sampleName);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -109,7 +110,7 @@ public class Document {
 	
 	public int generateID() throws IOException{ //Will - override
 		int num = 0;
-		File file = new File(System.getProperty("user.home") + "//Desktop//Roche//idCounter.txt");
+		File file = new File(Driver.getMasterFolder() + "//idCounter.txt");
 		System.out.println("YO: " + file.exists());
 		PrintWriter writer = new PrintWriter(file);
 		java.util.Scanner scan = new java.util.Scanner(file);

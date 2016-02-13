@@ -37,7 +37,6 @@ public class GUI extends javax.swing.JDialog{
 	private Icon picture = null; //instance of picture after most recent picture taken
     private String name, contact; //name and contact of whoever logs in
     private boolean isFinished = false;
-    private int projectNumber;
     
     public GUI(){
     	new GUI("Name", "Contact");
@@ -63,6 +62,7 @@ public class GUI extends javax.swing.JDialog{
             public void windowClosing(WindowEvent e)
             {
                 System.out.println("Bye, Felicia!");
+                exitSystem();
                 System.exit(1); //Even this doesn't end it completely for some reason
             }
         });
@@ -113,15 +113,34 @@ public class GUI extends javax.swing.JDialog{
 		System.out.println("Crisis averted");
 		}
 		try{
-			this.projectNumber = Integer.parseInt(br.readLine());
+			Driver.setProjectNum(Integer.parseInt(br.readLine()));
+			jLabel8.setText("Project Number:  " + Driver.getProjectNum());
 			br.close();
 		}catch(java.lang.NullPointerException err){
 			//if the file contains no text, set first project number
 			pw = new BufferedWriter(new FileWriter(logFile));
 	        pw.write("1");
-	        this.projectNumber = 1;
+	        Driver.setProjectNum(1);
+	        jLabel8.setText("Project Number:  " + Driver.getProjectNum());
 		    pw.close();
 		}
+    }
+    
+    public void writeProjectNumber() throws IOException{
+    	BufferedWriter pw = null;
+		File logFile = new File(Driver.getMasterFolder() + "/projectNumber.txt");
+		BufferedReader br = null;
+		try{
+		br = new BufferedReader(new FileReader(logFile));
+		pw = new BufferedWriter(new FileWriter(logFile));
+		}catch (FileNotFoundException e){
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		pw = new BufferedWriter(new FileWriter(logFile));
+		System.out.println("Crisis averted");
+		}
+		pw.write("" + Driver.getProjectNum());
+		pw.close();
     }
     
 	public static BufferedImage createAwtImage(Mat mat) {
@@ -252,7 +271,7 @@ public class GUI extends javax.swing.JDialog{
         });
         
         jLabel7.setText("Logged in as: " + name);
-        jLabel8.setText("Project Number:  " + this.projectNumber);
+        jLabel8.setText("Project Number:  " + Driver.getProjectNum());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -368,13 +387,19 @@ public class GUI extends javax.swing.JDialog{
 
     private int exitSystem() {
     	System.out.println("Bye Felicia!");
+    	try {
+			writeProjectNumber();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.exit(99);
 		return 0;
 	}
 
 	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) throws IOException{ //generate label
     	ArrayList<String> tests = compileTests();
-        Document d = new Document(jTextArea1.getText(), jTextField1.getText(), Integer.parseInt(jComboBox1.getSelectedItem().toString()), tests, (javax.swing.ImageIcon)picture,
+        Document d = new Document(jTextField1.getText(), jTextArea1.getText(), Integer.parseInt(jComboBox1.getSelectedItem().toString()), tests, (javax.swing.ImageIcon)picture,
         		"Name", "3171234567", "google@google.com");
         d.makeLabel();
         jLabel6.setText("Label Generated at " + new SimpleDateFormat("HH:mm:ss").format(new Date()));
@@ -392,12 +417,18 @@ public class GUI extends javax.swing.JDialog{
     }
     
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt){ //log out
+    	try {
+			writeProjectNumber();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	isFinished = true;
     }
     
     private void jButton5ActionPerformed(ActionEvent e) { //start new project
-		this.projectNumber++;
-		jLabel8.setText("Project Number:  " + this.projectNumber);
+		Driver.incrProjectNum();
+		jLabel8.setText("Project Number:  " + Driver.getProjectNum());
 	}
     
     public ArrayList<String> compileTests(){

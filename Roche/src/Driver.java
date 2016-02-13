@@ -13,12 +13,28 @@ import javax.swing.JFileChooser;
 
 public class Driver {
 	private static String MASTER_FOLDER_PATH = "";
+	private static int projectNumber;
+	
+	public static int getProjectNum(){
+		return (projectNumber > 0 ? projectNumber : 0);
+	}
+	
+	public static void incrProjectNum(){
+		projectNumber++;
+	}
+	
+	public static void setProjectNum(int num){
+		projectNumber = num;
+	}
 	
 	public static String getMasterFolder(){
 		return MASTER_FOLDER_PATH;
 	}
-	public static String getMasterFolder(int projectNum){
-		return (MASTER_FOLDER_PATH + "//" + projectNum);
+	
+	public static String getSubFolder(){
+		File irrelevant = new File(MASTER_FOLDER_PATH + "//" + projectNumber);
+		if(! irrelevant.isDirectory()) irrelevant.mkdir();
+		return (MASTER_FOLDER_PATH + "//" + projectNumber);
 	}
 	
 	public static void main(String[] args) throws IOException {
@@ -29,7 +45,7 @@ public class Driver {
 		br = new BufferedReader(new FileReader(logFile));
 		}catch (FileNotFoundException e) {
 		// TODO Auto-generated catch block
-		e.printStackTrace();
+		//e.printStackTrace();
 		pw = new BufferedWriter(new FileWriter(logFile));
 		System.out.println("Crisis averted");
 }
@@ -74,9 +90,6 @@ public class Driver {
  * 
  * Chris
  * 
- * Save in folders by project number
- * "New project" option
- * Cumulative Spreadsheet
  * Fix closing down
  * 
  */

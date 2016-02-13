@@ -253,6 +253,8 @@ public class LoginGUI extends javax.swing.JDialog{
 	    }
 	    
 	    private void writeToDatabase(String name, String email, String phoneNum, String username, String password){
+	    	System.out.println("Name:\t" + name + "\nEmail:\t" + email + "\nPhone:\t" + phoneNum + "\nUsername:\t" + username + "\nPassword:\t" + password);
+	    	name.replace(" ", "_");
 	    	try {
 				write.write("" + name + " " + email + " " + phoneNum + " " + username + " " + password + "\n");
 				write.flush();
