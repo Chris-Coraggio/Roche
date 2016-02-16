@@ -112,18 +112,24 @@ public class Document {
 		int num = 0;
 		File file = new File(Driver.getMasterFolder() + "//idCounter.txt");
 		System.out.println("YO: " + file.exists());
-		PrintWriter writer = new PrintWriter(file);
+		
+		
 		java.util.Scanner scan = new java.util.Scanner(file);
 		try{
-		num = Integer.parseInt(scan.nextLine());
+			num = Integer.valueOf(scan.nextLine());
+			System.out.println("It was: " + num);
 		}catch(NoSuchElementException err){
-			writer.write("0");
+			FileWriter write1 = new FileWriter(file);
+			write1.write("0");
+			write1.close();
 		}
+		FileWriter writer = new FileWriter(file, false);
+
 		num++;
-		file.delete();
 		writer.write(Integer.toString(num));
 		writer.close();
 		scan.close();
+		System.out.println("It is now: " + num);
 		return num;
 	}
 	
