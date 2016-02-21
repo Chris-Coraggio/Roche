@@ -111,7 +111,7 @@ public class Document {
 	
 	public int generateID() throws IOException{ //Will - override
 		int num = 0;
-  		File file = new File(Driver.getMasterFolder() + "//idCounter.txt");
+  		File file = new File(Driver.getSystemFolder() + "//idCounter.txt");
   		java.util.Scanner scan;
   		try{
   			scan = new java.util.Scanner(file);
@@ -147,7 +147,7 @@ public class Document {
 				"\nSample Name:  " + (sampleName.length() > MAX_LENGTH ? "\n" : "") + sampleName +
 				"\nDescription:  " + (description.length() > MAX_LENGTH ? "\n" : "") + description + 
 				"\nCharge Number:  " + chargeNumber +
-				"\nDesired Tests:  " + desiredTests + tests + //will need to fix this
+				"\nDesired Tests:  " + tests + //will need to fix this
 				"\nSubmitter Name:  " + (submitterName.length() > MAX_LENGTH ? "\n" : "") + submitterName + 
 				"\nSubmitter Phone:  " + (submitterPhone.length() > MAX_LENGTH ? "\n" : "") + submitterPhone + 
 				"\nSubmitter Email:  " + (submitterEmail.length() > MAX_LENGTH ? "\n" : "") + submitterEmail

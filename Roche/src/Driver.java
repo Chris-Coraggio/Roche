@@ -37,6 +37,12 @@ public class Driver {
 		return (MASTER_FOLDER_PATH + "//" + projectNumber);
 	}
 	
+	public static String getSystemFolder(){
+		File irrelevant = new File(MASTER_FOLDER_PATH + "//system");
+		if(! irrelevant.isDirectory()) irrelevant.mkdir();
+		return (MASTER_FOLDER_PATH + "//system");
+	}
+	
 	public static void main(String[] args) throws IOException {
 		BufferedWriter pw = null;
 		File logFile = new File("./log.txt");
@@ -48,7 +54,7 @@ public class Driver {
 		//e.printStackTrace();
 		pw = new BufferedWriter(new FileWriter(logFile));
 		System.out.println("Crisis averted");
-}
+		}
 		try{
 			MASTER_FOLDER_PATH = br.readLine();
 			br.close();
@@ -90,6 +96,6 @@ public class Driver {
  * 
  * Chris
  * 
- * Fix closing down
+ * Fix closing down in login gui
  * 
  */

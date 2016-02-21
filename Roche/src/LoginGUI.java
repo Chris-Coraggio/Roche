@@ -1,4 +1,5 @@
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -12,12 +13,13 @@ public class LoginGUI extends javax.swing.JDialog{
 	    private ArrayList<String> phoneNums = new ArrayList<String>();
 	    private ArrayList<String> names = new ArrayList<String>();
 	    private ArrayList<String> emails = new ArrayList<String>();
-	    private final java.io.File FILE = new java.io.File(Driver.getMasterFolder() + "//file.txt");
+	    private final java.io.File FILE;
 	    private java.io.BufferedWriter write;
 	    private java.io.BufferedReader read; 
 	    private boolean isFinished;
 	    
 	    public LoginGUI() {
+	    	FILE = makeFile();
 	        initComponents();
 	        isFinished = false;
 	        this.setVisible(true);
@@ -212,6 +214,22 @@ public class LoginGUI extends javax.swing.JDialog{
 
 	        pack();
 	    }// </editor-fold>   
+	    
+	    public File makeFile(){
+	    	File file = null;
+	    	try{
+	    	 file = new java.io.File(Driver.getSystemFolder() + "//file.txt");
+	    	 return file;
+	    	}catch(Exception e){
+	    		try {
+					file.createNewFile();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+	    		return file;
+	    	}
+	    }
                         
 
 	    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {                                            

@@ -103,13 +103,13 @@ public class GUI extends javax.swing.JDialog{
     
     public void initProjectNumber() throws IOException{
     	BufferedWriter pw = null;
-		File logFile = new File(Driver.getMasterFolder() + "/projectNumber.txt");
+		File logFile = new File(Driver.getSystemFolder() + "/projectNumber.txt");
 		BufferedReader br = null;
 		try{
 		br = new BufferedReader(new FileReader(logFile));
 		}catch (FileNotFoundException e){
 		// TODO Auto-generated catch block
-		e.printStackTrace();
+		//e.printStackTrace();
 		pw = new BufferedWriter(new FileWriter(logFile));
 		System.out.println("Crisis averted");
 		}
@@ -129,7 +129,7 @@ public class GUI extends javax.swing.JDialog{
     
     public void writeProjectNumber() throws IOException{
     	BufferedWriter pw = null;
-		File logFile = new File(Driver.getMasterFolder() + "/projectNumber.txt");
+		File logFile = new File(Driver.getSystemFolder() + "/projectNumber.txt");
 		BufferedReader br = null;
 		try{
 		br = new BufferedReader(new FileReader(logFile));
