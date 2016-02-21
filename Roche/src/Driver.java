@@ -76,7 +76,7 @@ public class Driver {
 		
 		while(true){
 		LoginGUI l = new LoginGUI();
-		new GUI(l.getName(), l.getContact());
+		new GUI(l.getName(), l.getPhoneNum(), l.getEmail());
 		}
 	}
 }

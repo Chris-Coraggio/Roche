@@ -141,14 +141,16 @@ public class Document {
 	
 	public String toString(){
 		final int MAX_LENGTH = 10;
-		return( "\nID:\t" + problemID +
-				"\nSample Name:\t" + sampleName + (sampleName.length() > MAX_LENGTH ? "\n" : "") +
-				"\nDescription:\t" + description + (description.length() > MAX_LENGTH ? "\n" : "") +
-				"\nCharge Number:\t" + chargeNumber +
-				"\nDesired Tests:\t" + desiredTests + //will need to fix this
-				"\nSubmitter Name:\t" + submitterName + (submitterName.length() > MAX_LENGTH ? "\n" : "") +
-				"\nSubmitter Phone:\t" + submitterPhone + (submitterPhone.length() > MAX_LENGTH ? "\n" : "") +
-				"\nSubmitter Email:\t" + submitterEmail + (submitterEmail.length() > MAX_LENGTH ? "\n" : "")
+		String tests = "";
+		for(String s: desiredTests) tests += (s + "\n");
+		return( "\nID:  " + problemID +
+				"\nSample Name:  " + (sampleName.length() > MAX_LENGTH ? "\n" : "") + sampleName +
+				"\nDescription:  " + (description.length() > MAX_LENGTH ? "\n" : "") + description + 
+				"\nCharge Number:  " + chargeNumber +
+				"\nDesired Tests:  " + desiredTests + tests + //will need to fix this
+				"\nSubmitter Name:  " + (submitterName.length() > MAX_LENGTH ? "\n" : "") + submitterName + 
+				"\nSubmitter Phone:  " + (submitterPhone.length() > MAX_LENGTH ? "\n" : "") + submitterPhone + 
+				"\nSubmitter Email:  " + (submitterEmail.length() > MAX_LENGTH ? "\n" : "") + submitterEmail
 				);
 	}
 }

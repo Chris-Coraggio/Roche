@@ -242,7 +242,7 @@ public class LoginGUI extends javax.swing.JDialog{
 	    	}else if(jTextField2.getText() == null){
 	    		warnings.setText("Please include a name");
 	    	}else{
-	    	name = jTextField2.getText();
+	    	name = jTextField2.getText().replace(" ", "_");
 	    	email = jTextField3.getText();
 	    	phoneNum = jTextField5.getText();
 	    	username = jTextField4.getText();
@@ -337,8 +337,12 @@ public class LoginGUI extends javax.swing.JDialog{
 	    	return name;
 	    }
 
-	    public String getContact(){
+	    public String getEmail(){
 	    	return email;
+	    }
+	    
+	    public String getPhoneNum(){
+	    	return this.phoneNum;
 	    }
 	    
 	    // Variables declaration - do not modify                     

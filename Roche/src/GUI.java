@@ -35,19 +35,20 @@ public class GUI extends javax.swing.JDialog{
 
 	private static final long serialVersionUID = 1L;
 	private Icon picture = null; //instance of picture after most recent picture taken
-    private String name, contact; //name and contact of whoever logs in
+    private String name, phone, email; //name and contact of whoever logs in
     private boolean isFinished = false;
     
     public GUI(){
-    	new GUI("Name", "Contact");
+    	new GUI("Name", "3171234567", "junkemail@gmail.com");
     }
     
     /*Change writing to csv file to include description and fix it later*/
     //fix logging off
     
-    public GUI(String name, String contact) {
+    public GUI(String name, String phone, String email) {
     	this.name = name;
-    	this.contact = contact;
+    	this.phone = phone;
+    	this.email = email;
         initComponents();
         try {
 			initProjectNumber();
@@ -400,7 +401,7 @@ public class GUI extends javax.swing.JDialog{
 	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) throws IOException{ //generate label
     	ArrayList<String> tests = compileTests();
         Document d = new Document(jTextField1.getText(), jTextArea1.getText(), Integer.parseInt(jComboBox1.getSelectedItem().toString()), tests, (javax.swing.ImageIcon)picture,
-        		"Name", "3171234567", "google@google.com");
+        		this.name, this.phone, this.email);
         d.makeLabel();
         jLabel6.setText("Label Generated at " + new SimpleDateFormat("HH:mm:ss").format(new Date()));
     }        
