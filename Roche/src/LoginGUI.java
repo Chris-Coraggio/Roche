@@ -43,6 +43,7 @@ public class LoginGUI extends javax.swing.JDialog{
 	    private void initComponents() {
 	    	
 	    	try {
+	    		System.out.println("FILE: "+ FILE);
 				write = new java.io.BufferedWriter(new java.io.FileWriter(FILE, true));
 				read = new java.io.BufferedReader(new java.io.FileReader(FILE));
 				readFromDatabase();

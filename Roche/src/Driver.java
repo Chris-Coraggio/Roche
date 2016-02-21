@@ -40,7 +40,7 @@ public class Driver {
 	public static String getSystemFolder(){
 		File irrelevant = new File(MASTER_FOLDER_PATH + "//system");
 		if(! irrelevant.isDirectory()) irrelevant.mkdir();
-		return (MASTER_FOLDER_PATH + "//system");
+		return (MASTER_FOLDER_PATH + "/system");
 	}
 	
 	public static void main(String[] args) throws IOException {
@@ -73,6 +73,7 @@ public class Driver {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+		        MASTER_FOLDER_PATH = chooser.getSelectedFile().getPath();
 		        System.out.println(chooser.getSelectedFile().getPath());
 		    }else {
 		        System.out.println("No Selection");
