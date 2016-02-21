@@ -116,13 +116,16 @@ public class Driver {
 
 /* TO DO LIST
  * 
- * William
+ * Will
  * 
- * ID Generator (in Document)
- * Pulldown for preestablished users (find that text file)
  * 
  * Chris
  * 
- * Fix closing down in login gui
+ * Fix closing down
+ * Read from csv files
  * 
+ * 
+ * For Later
+ * 
+ * Pulldown for preeestablished users
  */

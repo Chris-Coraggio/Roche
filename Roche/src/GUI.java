@@ -37,18 +37,26 @@ public class GUI extends javax.swing.JDialog{
 	private Icon picture = null; //instance of picture after most recent picture taken
     private String name, phone, email; //name and contact of whoever logs in
     private boolean isFinished = false;
+    private ArrayList<Integer> chargeNumbers = new ArrayList<Integer>();
+    private ArrayList<String> desiredTests = new ArrayList<String>();
     
     public GUI(){
     	new GUI("Name", "3171234567", "junkemail@gmail.com");
     }
     
-    /*Change writing to csv file to include description and fix it later*/
-    //fix logging off
-    
     public GUI(String name, String phone, String email) {
     	this.name = name;
     	this.phone = phone;
     	this.email = email;
+    	try {
+			initChargeNumbers();
+		} catch (NumberFormatException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
         initComponents();
         try {
 			initProjectNumber();
@@ -161,6 +169,22 @@ public class GUI extends javax.swing.JDialog{
 	    byte[] data = dataBuffer.getData();
 	    mat.get(0, 0, data);
 	    return image;
+	}
+	
+	public void initChargeNumbers() throws NumberFormatException, IOException{
+		BufferedReader br = new BufferedReader(new FileReader(Driver.getSystemFolder() + "/chargeNumbers.csv"));
+		String string;
+		while(br.ready()){
+			string = br.readLine();
+			string = string.replace(",", "");
+			while(string.length() >= 1){
+				if(string.indexOf(" ") != -1){
+					chargeNumbers.add(Integer.parseInt(string.substring(0, string.indexOf(" "))));
+					string = string.substring(0, string.indexOf(" "));
+				}else string = "";
+			}
+		}
+		System.out.println(chargeNumbers);
 	}
 
 	  
