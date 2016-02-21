@@ -1,26 +1,16 @@
-import java.awt.Button;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.MediaTracker;
-import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 
 public class Document {
 	
@@ -147,8 +137,8 @@ public class Document {
 				"\nSample Name:  " + (sampleName.length() > MAX_LENGTH ? "\n" : "") + sampleName +
 				"\nDescription:  " + (description.length() > MAX_LENGTH ? "\n" : "") + description + 
 				"\nCharge Number:  " + chargeNumber +
-				"\nDesired Tests:  " + tests + //will need to fix this
-				"\nSubmitter Name:  " + (submitterName.length() > MAX_LENGTH ? "\n" : "") + submitterName + 
+				"\nDesired Tests:\n" + tests +
+				"Submitter Name:  " + (submitterName.length() > MAX_LENGTH ? "\n" : "") + submitterName + 
 				"\nSubmitter Phone:  " + (submitterPhone.length() > MAX_LENGTH ? "\n" : "") + submitterPhone + 
 				"\nSubmitter Email:  " + (submitterEmail.length() > MAX_LENGTH ? "\n" : "") + submitterEmail
 				);

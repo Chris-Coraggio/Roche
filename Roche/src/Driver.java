@@ -1,3 +1,4 @@
+import java.awt.FileDialog;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -60,6 +61,7 @@ public class Driver {
 			br.close();
 		}catch(java.lang.NullPointerException err){
 			//if the file contains no text, launch master folder picker and write path to file
+			
 			pw = new BufferedWriter(new FileWriter(logFile));
 	        JFileChooser chooser = new JFileChooser(); 
 		    chooser.setCurrentDirectory(new java.io.File("."));
@@ -79,6 +81,30 @@ public class Driver {
 		        System.out.println("No Selection");
 		    }
 		    pw.close();
+			/*pw = new BufferedWriter(new FileWriter(logFile));
+			boolean fileChosen = false;
+			javax.swing.JFrame fileChooser = new javax.swing.JFrame();
+			while(fileChosen == false){
+				fileChooser.setSize(300, 700);
+		        FileDialog chooser = new FileDialog(fileChooser, "Select your master folder"); 
+			    chooser.setDirectory(".");
+			    chooser.setMultipleMode(false);
+			    fileChooser.setVisible(true);
+			    chooser.setVisible(true);
+			    if (chooser.getFile() != null && new File(chooser.getFile()).isDirectory()) { 
+			        try {
+						pw.write(chooser.getFile());
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			        MASTER_FOLDER_PATH = chooser.getFile();
+			        System.out.println(chooser.getFile());
+			        pw.close();
+			        fileChosen = true;
+			    }
+			}
+			*/
 		}
 		
 		while(true){
