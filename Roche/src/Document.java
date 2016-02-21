@@ -139,7 +139,6 @@ public class Document {
   		return num;
   	}
 	
-	
 	public String toString(){
 		final int MAX_LENGTH = 10;
 		return( "\nID:\t" + problemID +
