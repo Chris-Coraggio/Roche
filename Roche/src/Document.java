@@ -9,6 +9,7 @@ import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -49,10 +50,10 @@ public class Document {
 	}
 	
 	public void makeLabel() throws java.io.IOException{
-		boolean fileExists = new File(Driver.getMasterFolder() + "//blah.csv").exists();
-		FileWriter f = new FileWriter(new File(Driver.getMasterFolder() + "//blah.csv"), true); //appends
+		boolean fileExists = new File(Driver.getMasterFolder() + "//Master_Spreadsheet.csv").exists();
+		FileWriter f = new FileWriter(new File(Driver.getMasterFolder() + "//Master_Spreadsheet.csv"), true); //appends
 		if(! fileExists) f.write("Sample Name, Charge Number, Submitter Name, Submitter Phone, Submitter Email, Problem ID\n");
-		f.write("" + sampleName + ", " + chargeNumber + ", " + submitterName + ", " + submitterPhone + ", " + submitterEmail + "\n");
+		f.write("" + sampleName + ", " + chargeNumber + ", " + submitterName + ", " + submitterPhone + ", " + submitterEmail + ", "+ problemID + "\n");
 		f.close();
 		annotatePicture();
 	}
@@ -110,33 +111,45 @@ public class Document {
 	
 	public int generateID() throws IOException{ //Will - override
 		int num = 0;
-		File file = new File(Driver.getMasterFolder() + "//idCounter.txt");
-		System.out.println("YO: " + file.exists());
-		PrintWriter writer = new PrintWriter(file);
-		java.util.Scanner scan = new java.util.Scanner(file);
-		try{
-		num = Integer.parseInt(scan.nextLine());
-		}catch(NoSuchElementException err){
-			writer.write("0");
-		}
-		num++;
-		file.delete();
-		writer.write(Integer.toString(num));
-		writer.close();
-		scan.close();
-		return num;
-	}
+  		File file = new File(Driver.getMasterFolder() + "//idCounter.txt");
+  		java.util.Scanner scan;
+  		try{
+  			scan = new java.util.Scanner(file);
+  		}catch(FileNotFoundException err){
+  			file.createNewFile();
+  			scan = new java.util.Scanner(file);
+  			System.out.println("The situation is under control");
+  		}
+  		try{
+ 		num = Integer.parseInt(scan.nextLine());
+ 			num = Integer.valueOf(scan.nextLine());
+ 			System.out.println("It was: " + num);
+  		}catch(NoSuchElementException err){
+ 			FileWriter write1 = new FileWriter(file);
+			write1.write("0");
+ 			write1.close();
+  		}
+  		FileWriter writer = new FileWriter(file, false);
+  		num++;
+ 		file.delete();
+  		writer.write(Integer.toString(num));
+  		writer.close();
+  		scan.close();
+ 		System.out.println("It is now: " + num);
+  		return num;
+  	}
 	
 	
 	public String toString(){
+		final int MAX_LENGTH = 10;
 		return( "\nID:\t" + problemID +
-				"\nSample Name:\t" + sampleName +
-				"\nDescription:\t" + description +
+				"\nSample Name:\t" + sampleName + (sampleName.length() > MAX_LENGTH ? "\n" : "") +
+				"\nDescription:\t" + description + (description.length() > MAX_LENGTH ? "\n" : "") +
 				"\nCharge Number:\t" + chargeNumber +
-				"\nDesired Tests:\t" + desiredTests +
-				"\nSubmitter Name:\t" + submitterName +
-				"\nSubmitter Phone:\t" + submitterPhone +
-				"\nSubmitter Email:\t" + submitterEmail
+				"\nDesired Tests:\t" + desiredTests + //will need to fix this
+				"\nSubmitter Name:\t" + submitterName + (submitterName.length() > MAX_LENGTH ? "\n" : "") +
+				"\nSubmitter Phone:\t" + submitterPhone + (submitterPhone.length() > MAX_LENGTH ? "\n" : "") +
+				"\nSubmitter Email:\t" + submitterEmail + (submitterEmail.length() > MAX_LENGTH ? "\n" : "")
 				);
 	}
 }
