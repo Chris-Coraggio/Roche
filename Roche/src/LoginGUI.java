@@ -1,3 +1,4 @@
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
@@ -112,6 +113,18 @@ public class LoginGUI extends javax.swing.JDialog{
 	        jScrollPane1.setViewportView(warnings);
 
 	        jLabel10.setText("Phone:");
+	        
+	        addWindowListener(new WindowAdapter()
+	        {
+	            @Override
+	            public void windowClosing(WindowEvent e)
+	            {
+	                exitSystem();
+	                System.exit(1); //Even this doesn't end it completely for some reason
+	            }
+	        });
+	        
+	        
 
 	        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
 	        getContentPane().setLayout(layout);
@@ -363,6 +376,11 @@ public class LoginGUI extends javax.swing.JDialog{
 	    public String getPhoneNum(){
 	    	return this.phoneNum;
 	    }
+	    
+	    public void exitSystem() {
+	    	System.out.println("Bye Felicia!");
+			System.exit(99);
+		}
 	    
 	    // Variables declaration - do not modify                     
 	    private javax.swing.JButton jButton1;

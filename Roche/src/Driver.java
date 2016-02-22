@@ -110,6 +110,7 @@ public class Driver {
 		while(true){
 		LoginGUI l = new LoginGUI();
 		new GUI(l.getName(), l.getPhoneNum(), l.getEmail());
+		System.out.println("Check");
 		}
 	}
 }
@@ -118,11 +119,9 @@ public class Driver {
  * 
  * Will
  * 
- * 
  * Chris
  * 
  * Fix closing down
- * Read from csv files
  * 
  * 
  * For Later

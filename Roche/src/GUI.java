@@ -16,7 +16,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
@@ -39,6 +41,7 @@ public class GUI extends javax.swing.JDialog{
     private boolean isFinished = false;
     private ArrayList<Integer> chargeNumbers = new ArrayList<Integer>();
     private ArrayList<String> desiredTests = new ArrayList<String>();
+    private List<javax.swing.JCheckBox> testsCheckboxes;
     
     public GUI(){
     	new GUI("Name", "3171234567", "junkemail@gmail.com");
@@ -50,6 +53,7 @@ public class GUI extends javax.swing.JDialog{
     	this.email = email;
     	try {
 			initChargeNumbers();
+			initDesiredTests();
 		} catch (NumberFormatException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
@@ -60,6 +64,7 @@ public class GUI extends javax.swing.JDialog{
         initComponents();
         try {
 			initProjectNumber();
+			assignStuffToButtons();
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -70,9 +75,8 @@ public class GUI extends javax.swing.JDialog{
             @Override
             public void windowClosing(WindowEvent e)
             {
-                System.out.println("Bye, Felicia!");
                 exitSystem();
-                System.exit(1); //Even this doesn't end it completely for some reason
+                System.out.println("End of windowClosing()");
             }
         });
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
@@ -180,11 +184,32 @@ public class GUI extends javax.swing.JDialog{
 			while(string.length() >= 1){
 				if(string.indexOf(" ") != -1){
 					chargeNumbers.add(Integer.parseInt(string.substring(0, string.indexOf(" "))));
-					string = string.substring(0, string.indexOf(" "));
-				}else string = "";
+					string = string.substring(string.indexOf(" ") + 1);
+				}else{
+					chargeNumbers.add(Integer.parseInt(string));
+					string = "";
+				}
 			}
 		}
 		System.out.println(chargeNumbers);
+	}
+	
+	public void initDesiredTests() throws NumberFormatException, IOException{
+		BufferedReader br = new BufferedReader(new FileReader(Driver.getSystemFolder() + "/desiredTests.csv"));
+		String string;
+		while(br.ready()){
+			string = br.readLine();
+			while(string.length() >= 1){
+				if(string.indexOf(",") != -1){
+					desiredTests.add(string.substring(0, string.indexOf(",")));
+					string = string.substring(string.indexOf(",") + 1);
+				}else{
+					desiredTests.add(string);
+					string = "";
+				}
+			}
+		}
+		System.out.println(desiredTests);
 	}
 
 	  
@@ -192,6 +217,8 @@ public class GUI extends javax.swing.JDialog{
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
+    	
+    	this.setDefaultCloseOperation(javax.swing.JFrame.DO_NOTHING_ON_CLOSE);
 
         jScrollPane1 = new javax.swing.JScrollPane();
         pictureLabel = new javax.swing.JLabel();
@@ -231,18 +258,6 @@ public class GUI extends javax.swing.JDialog{
         jLabel3.setText("Project Charge #:");
 
         jLabel4.setText("Desired Tests:");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4" }));
-
-        jCheckBox1.setText("jCheckBox1");
-
-        jCheckBox2.setText("jCheckBox2");
-
-        jCheckBox3.setText("jCheckBox3");
-
-        jCheckBox4.setText("jCheckBox4");
-
-        jCheckBox5.setText("jCheckBox5");
 
         jButton1.setText("Generate Label");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -410,16 +425,15 @@ public class GUI extends javax.swing.JDialog{
         pack();
     }// </editor-fold>                        
 
-    private int exitSystem() {
-    	System.out.println("Bye Felicia!");
+    public void exitSystem() {
     	try {
 			writeProjectNumber();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.exit(99);
-		return 0;
+    	System.out.println("TERMINATED");
+    	isFinished = true;
 	}
 
 	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) throws IOException{ //generate label
@@ -468,7 +482,17 @@ public class GUI extends javax.swing.JDialog{
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {                                            
         // TODO add your handling code here:
-    }                                           
+    }      
+    
+    private void assignStuffToButtons(){
+    	 testsCheckboxes = Arrays.asList(jCheckBox1, jCheckBox2, jCheckBox3,
+						    			 jCheckBox4, jCheckBox5, jCheckBox6,
+						    			 jCheckBox7, jCheckBox8, jCheckBox9, jCheckBox10);
+    	 for(int x = 0; x < testsCheckboxes.size() && x < desiredTests.size(); x++){
+    		 testsCheckboxes.get(x).setText(desiredTests.get(x));
+    	 }
+    	 jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(chargeNumbers.toArray())); 
+    }
 
     // Variables declaration - do not modify                     
     private javax.swing.JButton jButton1;
