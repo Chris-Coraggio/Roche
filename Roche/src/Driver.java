@@ -1,4 +1,3 @@
-import java.awt.FileDialog;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -6,9 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.URISyntaxException;
-import java.net.URL;
 
 import javax.swing.JFileChooser;
 
@@ -106,7 +102,8 @@ public class Driver {
 			}
 			*/
 		}
-		
+		if(! new File(getSystemFolder() + "//chargeNumbers.csv").exists()) new File(getSystemFolder() + "//chargeNumbers.csv").createNewFile();
+        if(! new File(getSystemFolder() + "//desiredTests.csv").exists()) new File(getSystemFolder() + "//desiredTests.csv").createNewFile();
 		while(true){
 		LoginGUI l = new LoginGUI();
 		new GUI(l.getName(), l.getPhoneNum(), l.getEmail());
@@ -121,7 +118,7 @@ public class Driver {
  * 
  * Chris
  * 
- * Fix closing down
+ * Export correctly
  * 
  * 
  * For Later
