@@ -427,7 +427,12 @@ public class GUI extends javax.swing.JDialog{
 
 	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) throws IOException{ //generate label
     	ArrayList<String> tests = compileTests();
-        Document d = new Document(jTextField1.getText(), jTextArea1.getText(), Integer.parseInt(jComboBox1.getSelectedItem().toString()), tests, (javax.swing.ImageIcon)picture,
+        Document d = new Document(
+        		(jTextField1.getText() != null ? jTextField1.getText() : ""),
+        		(jTextArea1.getText() != null ? jTextArea1.getText() : ""),
+        		(jComboBox1.getSelectedItem() != null ? Integer.parseInt(jComboBox1.getSelectedItem().toString()) : new Integer(0)),
+        		tests,
+        		(javax.swing.ImageIcon)picture,
         		this.name, this.phone, this.email);
         d.makeLabel();
         jLabel6.setText("Label Generated at " + new SimpleDateFormat("HH:mm:ss").format(new Date()));

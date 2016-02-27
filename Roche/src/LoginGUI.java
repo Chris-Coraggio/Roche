@@ -120,7 +120,10 @@ public class LoginGUI extends javax.swing.JDialog{
 	            public void windowClosing(WindowEvent e)
 	            {
 	                exitSystem();
-	                System.exit(1); //Even this doesn't end it completely for some reason
+	                for (Thread t : Thread.getAllStackTraces().keySet()) 
+	                {  if (t.getState()==Thread.State.RUNNABLE) 
+	                    t.interrupt();
+	               }
 	            }
 	        });
 	        

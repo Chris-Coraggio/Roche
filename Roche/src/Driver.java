@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URLDecoder;
 
 import javax.swing.JFileChooser;
 
@@ -25,22 +27,26 @@ public class Driver {
 	}
 	
 	public static String getMasterFolder(){
+		File irrelevant = new File(MASTER_FOLDER_PATH);
+		if(! irrelevant.isDirectory()) irrelevant.mkdir();
 		return MASTER_FOLDER_PATH;
 	}
 	
 	public static String getSubFolder(){
-		File irrelevant = new File(MASTER_FOLDER_PATH + "//" + projectNumber);
+		File irrelevant = new File(getMasterFolder() + "//" + projectNumber);
 		if(! irrelevant.isDirectory()) irrelevant.mkdir();
 		return (MASTER_FOLDER_PATH + "//" + projectNumber);
 	}
 	
 	public static String getSystemFolder(){
-		File irrelevant = new File(MASTER_FOLDER_PATH + "//system");
+		File irrelevant = new File(getMasterFolder() + "//system");
 		if(! irrelevant.isDirectory()) irrelevant.mkdir();
 		return (MASTER_FOLDER_PATH + "/system");
 	}
 	
 	public static void main(String[] args) throws IOException {
+		System.out.println(System.getProperty("java.library.path"));
+		System.setProperty("java.library.path", "C://Users//Chris//Desktop");
 		BufferedWriter pw = null;
 		File logFile = new File("./log.txt");
 		BufferedReader br = null;
@@ -102,8 +108,12 @@ public class Driver {
 			}
 			*/
 		}
-		if(! new File(getSystemFolder() + "//chargeNumbers.csv").exists()) new File(getSystemFolder() + "//chargeNumbers.csv").createNewFile();
-        if(! new File(getSystemFolder() + "//desiredTests.csv").exists()) new File(getSystemFolder() + "//desiredTests.csv").createNewFile();
+		File f = new File(getSystemFolder() + "//chargeNumbers.csv");
+		if(! f.exists()) f.createNewFile();
+		f = new File(getSystemFolder() + "//desiredTests.csv");
+		if(! f.exists()) f.createNewFile();
+		//if(! new File(getSystemFolder() + "//chargeNumbers.csv").exists()) new File(getSystemFolder() + "//chargeNumbers.csv").createNewFile();
+        //if(! new File(getSystemFolder() + "//desiredTests.csv").exists()) new File(getSystemFolder() + "//desiredTests.csv").createNewFile();
 		while(true){
 		LoginGUI l = new LoginGUI();
 		new GUI(l.getName(), l.getPhoneNum(), l.getEmail());
