@@ -28,7 +28,7 @@ public class GUI extends javax.swing.JDialog{
 	private Icon picture = null; //instance of picture after most recent picture taken
     private String name, phone, email; //name and contact of whoever logs in
     private boolean isFinished = false;
-    private ArrayList<Integer> chargeNumbers = new ArrayList<Integer>();
+    private ArrayList<String> chargeNumbers = new ArrayList<String>();
     private ArrayList<String> desiredTests = new ArrayList<String>();
     private List<javax.swing.JCheckBox> testsCheckboxes;
     
@@ -175,10 +175,10 @@ public class GUI extends javax.swing.JDialog{
 			System.out.println(string);
 			while(string.length() >= 1){
 				if(string.indexOf(" ") != -1){
-					chargeNumbers.add(Integer.parseInt(string.substring(0, string.indexOf(" "))));
+					chargeNumbers.add(string.substring(0, string.indexOf(" ")));
 					string = string.substring(string.indexOf(" ") + 1);
 				}else{
-					chargeNumbers.add(Integer.parseInt(string));
+					chargeNumbers.add(string);
 					string = "";
 				}
 			}
