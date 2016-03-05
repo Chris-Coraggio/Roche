@@ -471,11 +471,9 @@ public class GUI extends javax.swing.JDialog{
     
     public ArrayList<String> compileTests(){
     	ArrayList<String> tests = new ArrayList<String>();
-    	if(jCheckBox1.isSelected()) tests.add(jCheckBox1.getText());
-    	if(jCheckBox2.isSelected()) tests.add(jCheckBox2.getText());
-    	if(jCheckBox3.isSelected()) tests.add(jCheckBox3.getText());
-    	if(jCheckBox4.isSelected()) tests.add(jCheckBox4.getText());
-    	if(jCheckBox5.isSelected()) tests.add(jCheckBox5.getText());
+    	for(javax.swing.JCheckBox j : testsCheckboxes){
+    		if(j.isSelected()) tests.add(j.getText());
+    	}
     	return tests;
     }
 
