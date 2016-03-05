@@ -2,6 +2,8 @@ Welcome to Version 1.0 of the Roche Sample Annotator! Here are a few things abou
 
 To add to the list of desired tests for the chemical samples and/or the charge numbers,
 please edit the corresponding csv files in the system folder of the master folder.
+Excel will yell at you in the saving process, just make sure it saves as a .csv file and keeps the formatting.
+Overwriting the original file is not a problem.
 
 The master folder is established upon the first run of the program and currently cannot be
 modified once designated.
