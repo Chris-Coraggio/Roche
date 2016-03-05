@@ -16,7 +16,7 @@ public class Document {
 	
 	private String sampleName;
 	private String description;
-	private int chargeNumber;
+	private String chargeNumber;
 	private ArrayList<String> desiredTests;
 	public static ImageIcon picture;
 	private int problemID;
@@ -26,7 +26,7 @@ public class Document {
 	
 	public Document(){}
 	
-	public Document(String sampleName, String description, int chargeNumber, ArrayList<String> desiredTests,
+	public Document(String sampleName, String description, String chargeNumber, ArrayList<String> desiredTests,
 			ImageIcon picture, String submitterName, String submitterPhone, String submitterEmail) throws IOException{
 		this.sampleName = sampleName;
 		this.description = description;
