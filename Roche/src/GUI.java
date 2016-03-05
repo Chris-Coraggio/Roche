@@ -41,8 +41,10 @@ public class GUI extends javax.swing.JDialog{
     	this.phone = phone;
     	this.email = email;
     	try {
+    		System.out.println("-------------------------------------------------------------");
 			initChargeNumbers();
 			initDesiredTests();
+			System.out.println("-------------------------------------------------------------");
 		} catch (NumberFormatException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
@@ -169,7 +171,8 @@ public class GUI extends javax.swing.JDialog{
 		String string;
 		while(br.ready()){
 			string = br.readLine();
-			string = string.replace(",", "");
+			string = string.replace(",", " ");
+			System.out.println(string);
 			while(string.length() >= 1){
 				if(string.indexOf(" ") != -1){
 					chargeNumbers.add(Integer.parseInt(string.substring(0, string.indexOf(" "))));
@@ -188,6 +191,7 @@ public class GUI extends javax.swing.JDialog{
 		String string;
 		while(br.ready()){
 			string = br.readLine();
+			System.out.println(string);
 			while(string.length() >= 1){
 				if(string.indexOf(",") != -1){
 					desiredTests.add(string.substring(0, string.indexOf(",")));
