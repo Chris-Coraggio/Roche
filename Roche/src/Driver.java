@@ -126,12 +126,20 @@ public class Driver {
  * 
  * Will
  * 
+ * Make screen bigger (100% height, 80% width)
+ * Expand picture window to include full picture
+ * 
  * Chris
  * 
- * Export correctly
+ * Move label to bottom
+ * Print label
+ * Change button names
+ * Update csv
+ * Auto-increment project number
  * 
  * 
  * For Later
  * 
  * Pulldown for preeestablished users
+ * Roche Logo
  */
