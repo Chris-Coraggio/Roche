@@ -16,8 +16,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
+import javax.print.Doc;
+import javax.print.DocFlavor;
+import javax.print.DocPrintJob;
+import javax.print.PrintException;
+import javax.print.PrintService;
+import javax.print.PrintServiceLookup;
+import javax.print.SimpleDoc;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.videoio.VideoCapture;
@@ -31,6 +40,7 @@ public class GUI extends javax.swing.JDialog{
     private ArrayList<String> chargeNumbers = new ArrayList<String>();
     private ArrayList<String> desiredTests = new ArrayList<String>();
     private List<javax.swing.JCheckBox> testsCheckboxes;
+    private Document doc; //store document saved for printing
     
     public GUI(){
     	new GUI("Name", "3171234567", "junkemail@gmail.com");
@@ -241,6 +251,7 @@ public class GUI extends javax.swing.JDialog{
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
 
         jScrollPane1.setViewportView(pictureLabel);
 
@@ -252,7 +263,7 @@ public class GUI extends javax.swing.JDialog{
 
         jLabel4.setText("Desired Tests:");
 
-        jButton1.setText("Generate Label");
+        jButton1.setText("Submit Sample");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 try {
@@ -296,10 +307,17 @@ public class GUI extends javax.swing.JDialog{
         	}
         });
         
-        jButton5.setText("Start New Project");
+        jButton5.setText("New Project");
         jButton5.addActionListener(new java.awt.event.ActionListener(){
         	public void actionPerformed(java.awt.event.ActionEvent e){
         		jButton5ActionPerformed(e);
+        	}
+        });
+        
+        jButton6.setText("Print Sample");
+        jButton6.addActionListener(new java.awt.event.ActionListener(){
+        	public void actionPerformed(java.awt.event.ActionEvent e){
+        		jButton6ActionPerformed(e);
         	}
         });
         
@@ -349,14 +367,17 @@ public class GUI extends javax.swing.JDialog{
                                             .addComponent(jCheckBox9)
                                             .addComponent(jCheckBox10))
                                         .addGap(57, 57, 57))))
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jButton4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel8)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton5)))))
+                                .addComponent(jButton5))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -401,7 +422,9 @@ public class GUI extends javax.swing.JDialog{
                             .addComponent(jCheckBox5)
                             .addComponent(jCheckBox10))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
+                            .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -414,7 +437,8 @@ public class GUI extends javax.swing.JDialog{
                     .addComponent(jButton4)
                     .addComponent(jButton5)
                     .addComponent(jLabel8))
-                .addGap(6, 6, 6)));
+                .addGap(6, 6, 6)
+        ));
         pack();
     }// </editor-fold>                        
 
@@ -430,7 +454,7 @@ public class GUI extends javax.swing.JDialog{
 	}
 
 	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) throws IOException{ //generate label
-		jLabel6.setText("Generating Label...");
+		jLabel6.setText("Submitting Sample...");
     	ArrayList<String> tests = compileTests();
         Document d = new Document(
         		(jTextField1.getText() != null ? jTextField1.getText() : ""),
@@ -440,7 +464,8 @@ public class GUI extends javax.swing.JDialog{
         		(javax.swing.ImageIcon)picture,
         		this.name, this.phone, this.email);
         d.makeLabel();
-        jLabel6.setText("Label Generated at " + new SimpleDateFormat("HH:mm:ss").format(new Date()));
+        doc = d;
+        jLabel6.setText("Sample Submitted at " + new SimpleDateFormat("HH:mm:ss").format(new Date()));
     }        
     
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt){ //take picture
@@ -464,10 +489,29 @@ public class GUI extends javax.swing.JDialog{
     	isFinished = true;
     }
     
-    private void jButton5ActionPerformed(ActionEvent e) { //start new project
+    private void jButton5ActionPerformed(ActionEvent e) { //new project
 		Driver.incrProjectNum();
 		jLabel8.setText("Project Number:  " + Driver.getProjectNum());
 	}
+    
+    private void jButton6ActionPerformed(ActionEvent e){ //print sample
+    	printString(doc.toString());
+    	jLabel6.setText("Label Printed at " + new SimpleDateFormat("HH:mm:ss").format(new Date()));
+    }
+    
+    public void printString(String s){
+    	char[] printdata = s.toCharArray();
+    	DocFlavor flavor = DocFlavor.CHAR_ARRAY.TEXT_PLAIN;
+    	PrintService pservice = PrintServiceLookup.lookupDefaultPrintService();
+    	DocPrintJob pjob = pservice.createPrintJob();
+    	Doc doc = new SimpleDoc(printdata, flavor, null);
+    	try {
+			pjob.print(doc, null);
+		} catch (PrintException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
     
     public ArrayList<String> compileTests(){
     	ArrayList<String> tests = new ArrayList<String>();
@@ -497,6 +541,7 @@ public class GUI extends javax.swing.JDialog{
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBox3;

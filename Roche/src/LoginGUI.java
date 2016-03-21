@@ -34,6 +34,7 @@ public class LoginGUI extends javax.swing.JDialog{
 	        	System.out.println(isFinished);
 	        	if(isFinished == true){
 	        		System.out.println("MAde it");
+	        		Driver.incrProjectNum();
 	        		this.dispose();
 	        		break;
 	        	}

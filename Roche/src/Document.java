@@ -42,8 +42,8 @@ public class Document {
 	public void makeLabel() throws java.io.IOException{
 		boolean fileExists = new File(Driver.getMasterFolder() + "//Master_Spreadsheet.csv").exists();
 		FileWriter f = new FileWriter(new File(Driver.getMasterFolder() + "//Master_Spreadsheet.csv"), true); //appends
-		if(! fileExists) f.write("Sample Name, Charge Number, Submitter Name, Submitter Phone, Submitter Email, Problem ID\n");
-		f.write("" + sampleName + ", " + chargeNumber + ", " + submitterName + ", " + submitterPhone + ", " + submitterEmail + ", "+ problemID + "\n");
+		if(! fileExists) f.write("Project Number, Problem ID, Sample Name, Sample Description, Charge Number, Tests, Submitter Name, Submitter Phone, Submitter Email\n");
+		f.write("" + Driver.getProjectNum() + ", " + problemID + ", " + sampleName + ", " + description + ", " + chargeNumber + ", " + desiredTests + ", " + submitterName + ", " + submitterPhone + ", " + submitterEmail + "\n");
 		f.close();
 		annotatePicture();
 	}
@@ -73,7 +73,7 @@ public class Document {
 		}
 		System.out.println(path);
         BufferedImage image = ImageIO.read(new File(path));
-        BufferedImage imageWithMargins = new BufferedImage(image.getWidth() * 4/3, image.getHeight(), image.getType());
+        BufferedImage imageWithMargins = new BufferedImage(image.getWidth(), image.getHeight() * 4/3, image.getType());
         /*
         Graphics g = newImage.getGraphics();
 
@@ -85,10 +85,13 @@ public class Document {
         Graphics g = imageWithMargins.getGraphics();
         g.drawImage(image, 0, 0, null);
         g.setColor(Color.WHITE);
-        g.fillRect(image.getWidth(), 0, image.getWidth() /3, image.getHeight());
+        //g.fillRect(image.getWidth(), 0, image.getWidth() /3, image.getHeight());
+        g.fillRect(0, image.getHeight(), image.getWidth(), image.getHeight() / 3);
         g.setColor(Color.BLACK);
         g.setFont(new Font("TimesRoman", Font.PLAIN, 18));
-        drawTheString(g, this.toString(), image.getWidth(), 0);
+        drawTheString(g, this.toString().substring(0, this.toString().indexOf("Desired")), 0, image.getHeight());
+        drawTheString(g, this.toString().substring(this.toString().indexOf("Desired"), this.toString().indexOf("Submitter")), image.getWidth() / 3, image.getHeight());
+        drawTheString(g, this.toString().substring(this.toString().indexOf("Submitter")), image.getWidth() * 2 /3, image.getHeight());
         g.dispose();
         
         ImageIO.write(imageWithMargins, "jpg", new File(path.substring(0, path.indexOf(".jpg")) + "-modified.jpg"));
@@ -133,7 +136,7 @@ public class Document {
 		final int MAX_LENGTH = 10;
 		String tests = "";
 		for(String s: desiredTests) tests += (s + "\n");
-		return( "\nID:  " + problemID +
+		return( "ID:  " + problemID +
 				"\nSample Name:  " + (sampleName.length() > MAX_LENGTH ? "\n" : "") + sampleName +
 				"\nDescription:  " + (description.length() > MAX_LENGTH ? "\n" : "") + description + 
 				"\nCharge Number:  " + chargeNumber +

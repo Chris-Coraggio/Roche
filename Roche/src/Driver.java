@@ -131,12 +131,7 @@ public class Driver {
  * 
  * Chris
  * 
- * Move label to bottom
  * Print label
- * Change button names
- * Update csv
- * Auto-increment project number
- * 
  * 
  * For Later
  * 
