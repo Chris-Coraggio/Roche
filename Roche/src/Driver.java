@@ -44,6 +44,11 @@ public class Driver {
 		return (MASTER_FOLDER_PATH + "/system");
 	}
 	
+	public static javax.swing.ImageIcon getLogo() throws IOException{
+		if(! new File(getSystemFolder() + "RocheLogo.png").exists()) new File(getSystemFolder() + "//RocheLogo.png").createNewFile();
+		return new javax.swing.ImageIcon(getSystemFolder() + "//RocheLogo.png");
+	}
+	
 	public static void main(String[] args) throws IOException {
 		System.out.println(System.getProperty("java.library.path"));
 		System.setProperty("java.library.path", "C://Users//Chris//Desktop");
@@ -132,6 +137,7 @@ public class Driver {
  * Chris
  * 
  * Print label
+ * Check isSaved() in GUI
  * 
  * For Later
  * 
