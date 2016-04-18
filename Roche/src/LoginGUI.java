@@ -43,7 +43,12 @@ public class LoginGUI extends javax.swing.JDialog{
 	    }
                           
 	    private void initComponents() {
-	    	
+	    	try {
+	    		this.setIconImage(Driver.getLogo().getImage());
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 	    	try {
 	    		System.out.println("FILE: "+ FILE);
 				write = new java.io.BufferedWriter(new java.io.FileWriter(FILE, true));

@@ -1,3 +1,4 @@
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -11,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,6 +28,7 @@ import javax.print.PrintServiceLookup;
 import javax.print.SimpleDoc;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
@@ -62,7 +65,12 @@ public class GUI extends javax.swing.JDialog{
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
-        initComponents();
+        try {
+			initComponents();
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
         try {
 			initProjectNumber();
 			assignStuffToButtons();
@@ -219,10 +227,11 @@ public class GUI extends javax.swing.JDialog{
     
     
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
-    private void initComponents() {
+    private void initComponents() throws IOException {
     	
     	this.setDefaultCloseOperation(javax.swing.JFrame.DO_NOTHING_ON_CLOSE);
-
+    	this.setIconImage(Driver.getLogo().getImage());
+    	
         jScrollPane1 = new javax.swing.JScrollPane();
         pictureLabel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -490,21 +499,93 @@ public class GUI extends javax.swing.JDialog{
     }
     
     private void jButton5ActionPerformed(ActionEvent e) { //new project
+		final javax.swing.JButton save = new javax.swing.JButton("Save it!");
+		save.addActionListener(new java.awt.event.ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		        try {
+					jButton1ActionPerformed(e);
+					javax.swing.SwingUtilities.getWindowAncestor(save).dispose();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}//submit sample
+		    }
+		});
+		final javax.swing.JButton cancel = new javax.swing.JButton("Continue without saving");
+		cancel.addActionListener(new java.awt.event.ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+					javax.swing.SwingUtilities.getWindowAncestor(cancel).dispose();
+		    }
+		});
+		try {
+			if(! isSaved(jLabel1.getText()))
+			JOptionPane.showOptionDialog(
+				     null, 
+				     "Are you SURE you want to leave this project unsaved?", 
+				     "Double Check", 
+				     JOptionPane.YES_NO_OPTION, 
+				     JOptionPane.QUESTION_MESSAGE, 
+				     null, 
+				     new Object[]{save, cancel}, 
+				     save);
+				//If the user clicks the okay button, the return value will be 0, or if they select the cancel button, it will be 1
+			 //JOptionPane.showMessageDialog(null, "Are you SURE you want to leave this unsaved?\n"
+			//		+ "Press Submit Sample before closing to save your work");
+		} catch (HeadlessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		Driver.incrProjectNum();
 		jLabel8.setText("Project Number:  " + Driver.getProjectNum());
 	}
     
+    private boolean isSaved(String s) throws IOException{
+    	ArrayList<String> entries  = new ArrayList<String>();
+    	java.util.Scanner scan;
+    	if(new File(Driver.getMasterFolder() + "//Master_Spreadsheet.csv").exists()){
+    		scan = new java.util.Scanner(new File(Driver.getMasterFolder() + "//Master_Spreadsheet.csv"));
+    	}else{
+    		return false;
+    	}
+		while(scan.hasNextLine()){
+			String [] strings = scan.nextLine().split(",");
+			for(String q: strings){
+				System.out.println(q.trim());
+				entries.add(q.trim());
+			}
+		}
+		for(String w : entries){
+			if(s.equals(w)){
+				scan.close();
+				return true;
+			}
+		}
+		scan.close();
+		return false;
+    }
+    
     private void jButton6ActionPerformed(ActionEvent e){ //print sample
-    	printString(doc.toString());
+    	printString(doc.getLabel());
     	jLabel6.setText("Label Printed at " + new SimpleDateFormat("HH:mm:ss").format(new Date()));
     }
     
     public void printString(String s){
-    	char[] printdata = s.toCharArray();
-    	DocFlavor flavor = DocFlavor.CHAR_ARRAY.TEXT_PLAIN;
+    	java.io.InputStream is = null;
+    	try {
+			is = new java.io.ByteArrayInputStream(s.getBytes("UTF8"));
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+    	DocFlavor flavor = DocFlavor.INPUT_STREAM.AUTOSENSE;
     	PrintService pservice = PrintServiceLookup.lookupDefaultPrintService();
     	DocPrintJob pjob = pservice.createPrintJob();
-    	Doc doc = new SimpleDoc(printdata, flavor, null);
+    	Doc doc = new SimpleDoc(is, flavor, null);
     	try {
 			pjob.print(doc, null);
 		} catch (PrintException e) {
