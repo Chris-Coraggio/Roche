@@ -1,4 +1,5 @@
-import java.awt.HeadlessException;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -12,13 +13,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-
 import javax.print.Doc;
 import javax.print.DocFlavor;
 import javax.print.DocPrintJob;
@@ -28,8 +27,6 @@ import javax.print.PrintServiceLookup;
 import javax.print.SimpleDoc;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.videoio.VideoCapture;
@@ -44,6 +41,9 @@ public class GUI extends javax.swing.JDialog{
     private ArrayList<String> desiredTests = new ArrayList<String>();
     private List<javax.swing.JCheckBox> testsCheckboxes;
     private Document doc; //store document saved for printing
+    private final String DEFAULT_FONT = "Sylfaen";
+    private final int DEFAULT_FONT_SIZE = 24;
+    private final int GAP_SIZE = sizeScreen() / 23;
     
     public GUI(){
     	new GUI("Name", "3171234567", "junkemail@gmail.com");
@@ -65,12 +65,7 @@ public class GUI extends javax.swing.JDialog{
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
-        try {
-			initComponents();
-		} catch (IOException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
+        initComponents();
         try {
 			initProjectNumber();
 			assignStuffToButtons();
@@ -227,18 +222,17 @@ public class GUI extends javax.swing.JDialog{
     
     
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
-    private void initComponents() throws IOException {
+    private void initComponents() {
     	
     	this.setDefaultCloseOperation(javax.swing.JFrame.DO_NOTHING_ON_CLOSE);
-    	this.setIconImage(Driver.getLogo().getImage());
-    	
+
         jScrollPane1 = new javax.swing.JScrollPane();
         pictureLabel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox();
@@ -271,6 +265,15 @@ public class GUI extends javax.swing.JDialog{
         jLabel3.setText("Project Charge #:");
 
         jLabel4.setText("Desired Tests:");
+        
+        jLabel1.setFont(new java.awt.Font(DEFAULT_FONT, 3, DEFAULT_FONT_SIZE));
+        jLabel2.setFont(new java.awt.Font(DEFAULT_FONT, 3, DEFAULT_FONT_SIZE));
+        jLabel3.setFont(new java.awt.Font(DEFAULT_FONT, 3, DEFAULT_FONT_SIZE));
+        jLabel4.setFont(new java.awt.Font(DEFAULT_FONT, 3, DEFAULT_FONT_SIZE));
+        jLabel10.setFont(new java.awt.Font(DEFAULT_FONT, 3, (DEFAULT_FONT_SIZE * 2))); //doubled
+        jLabel7.setFont(new java.awt.Font(DEFAULT_FONT, 3, DEFAULT_FONT_SIZE));
+        jLabel8.setFont(new java.awt.Font(DEFAULT_FONT, 3, DEFAULT_FONT_SIZE));
+        
 
         jButton1.setText("Submit Sample");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -300,8 +303,7 @@ public class GUI extends javax.swing.JDialog{
                 jButton2ActionPerformed(evt);
             }
         });
-
-        jLabel6.setFont(new java.awt.Font("Sylfaen", 3, 24));
+        
         jButton3.setText("Reset Camera");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -333,60 +335,62 @@ public class GUI extends javax.swing.JDialog{
         jLabel7.setText("Logged in as: " + name);
         jLabel8.setText("Project Number:  " + Driver.getProjectNum());
 
+        jLabel10.setText("jLabel10");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(332, 332, 332)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pictureLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(GAP_SIZE, GAP_SIZE, GAP_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton2))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE))
+                    		.addGap(GAP_SIZE, GAP_SIZE, GAP_SIZE)
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 613, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jTextField1)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 594, Short.MAX_VALUE)
+                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jCheckBox5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jCheckBox4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jCheckBox3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jCheckBox2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jCheckBox1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField1)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
-                                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jCheckBox5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jCheckBox4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jCheckBox3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jCheckBox2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jCheckBox1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jCheckBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jCheckBox7)
-                                            .addComponent(jCheckBox8)
-                                            .addComponent(jCheckBox9)
-                                            .addComponent(jCheckBox10))
-                                        .addGap(57, 57, 57))))
-                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton5))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                    .addComponent(jCheckBox7)
+                                    .addComponent(jCheckBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jCheckBox8)
+                                    .addComponent(jCheckBox9)
+                                    .addComponent(jCheckBox10))
+                                .addGap(159, 159, 159))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
+                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -398,58 +402,70 @@ public class GUI extends javax.swing.JDialog{
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
                             .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(GAP_SIZE, GAP_SIZE, GAP_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(GAP_SIZE, GAP_SIZE, GAP_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(GAP_SIZE, GAP_SIZE, GAP_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jCheckBox1))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jCheckBox2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jCheckBox3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jCheckBox4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jCheckBox5))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane2)
-                                .addGap(33, 33, 33)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jCheckBox1)
-                                .addComponent(jCheckBox6)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jCheckBox6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jCheckBox7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jCheckBox8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jCheckBox9)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jCheckBox10)))
+                        .addGap(GAP_SIZE, GAP_SIZE, GAP_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jCheckBox2)
-                            .addComponent(jCheckBox7))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jCheckBox3)
-                            .addComponent(jCheckBox8))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jCheckBox4)
-                            .addComponent(jCheckBox9))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jCheckBox5)
-                            .addComponent(jCheckBox10))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(GAP_SIZE, GAP_SIZE, GAP_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
-                            .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jLabel6)
-                    .addComponent(jButton3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5)
-                    .addComponent(jLabel8))
-                .addGap(6, 6, 6)
-        ));
+                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
+                        .addGap(GAP_SIZE, GAP_SIZE, GAP_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(83, 83, 83)
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                    		.addGap(GAP_SIZE, GAP_SIZE, GAP_SIZE)
+                        .addComponent(pictureLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 661, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(GAP_SIZE, GAP_SIZE, GAP_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
         pack();
-    }// </editor-fold>                        
+        //sizeScreen();
+    }// </editor-fold>    
+    
+    public int sizeScreen(){ //returns vertical height of screen
+    	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setSize((int)(screenSize.width * .8), screenSize.height);
+        return screenSize.height;
+    }
 
     public void exitSystem() {
     	try {
@@ -463,7 +479,7 @@ public class GUI extends javax.swing.JDialog{
 	}
 
 	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) throws IOException{ //generate label
-		jLabel6.setText("Submitting Sample...");
+		jLabel10.setText("Submitting Sample...");
     	ArrayList<String> tests = compileTests();
         Document d = new Document(
         		(jTextField1.getText() != null ? jTextField1.getText() : ""),
@@ -474,11 +490,11 @@ public class GUI extends javax.swing.JDialog{
         		this.name, this.phone, this.email);
         d.makeLabel();
         doc = d;
-        jLabel6.setText("Sample Submitted at " + new SimpleDateFormat("HH:mm:ss").format(new Date()));
+        jLabel10.setText("Sample Submitted at " + new SimpleDateFormat("HH:mm:ss").format(new Date()));
     }        
     
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt){ //take picture
-    	jLabel6.setText("Picture Taken at " + new SimpleDateFormat("HH:mm:ss").format(new Date()));
+    	jLabel10.setText("Picture Taken at " + new SimpleDateFormat("HH:mm:ss").format(new Date()));
     	picture = pictureLabel.getIcon();
     	jButton2.setEnabled(false);
     }
@@ -499,93 +515,21 @@ public class GUI extends javax.swing.JDialog{
     }
     
     private void jButton5ActionPerformed(ActionEvent e) { //new project
-		final javax.swing.JButton save = new javax.swing.JButton("Save it!");
-		save.addActionListener(new java.awt.event.ActionListener() {
-		    @Override
-		    public void actionPerformed(ActionEvent e) {
-		        try {
-					jButton1ActionPerformed(e);
-					javax.swing.SwingUtilities.getWindowAncestor(save).dispose();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}//submit sample
-		    }
-		});
-		final javax.swing.JButton cancel = new javax.swing.JButton("Continue without saving");
-		cancel.addActionListener(new java.awt.event.ActionListener() {
-		    @Override
-		    public void actionPerformed(ActionEvent e) {
-					javax.swing.SwingUtilities.getWindowAncestor(cancel).dispose();
-		    }
-		});
-		try {
-			if(! isSaved(jLabel1.getText()))
-			JOptionPane.showOptionDialog(
-				     null, 
-				     "Are you SURE you want to leave this project unsaved?", 
-				     "Double Check", 
-				     JOptionPane.YES_NO_OPTION, 
-				     JOptionPane.QUESTION_MESSAGE, 
-				     null, 
-				     new Object[]{save, cancel}, 
-				     save);
-				//If the user clicks the okay button, the return value will be 0, or if they select the cancel button, it will be 1
-			 //JOptionPane.showMessageDialog(null, "Are you SURE you want to leave this unsaved?\n"
-			//		+ "Press Submit Sample before closing to save your work");
-		} catch (HeadlessException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		Driver.incrProjectNum();
 		jLabel8.setText("Project Number:  " + Driver.getProjectNum());
 	}
     
-    private boolean isSaved(String s) throws IOException{
-    	ArrayList<String> entries  = new ArrayList<String>();
-    	java.util.Scanner scan;
-    	if(new File(Driver.getMasterFolder() + "//Master_Spreadsheet.csv").exists()){
-    		scan = new java.util.Scanner(new File(Driver.getMasterFolder() + "//Master_Spreadsheet.csv"));
-    	}else{
-    		return false;
-    	}
-		while(scan.hasNextLine()){
-			String [] strings = scan.nextLine().split(",");
-			for(String q: strings){
-				System.out.println(q.trim());
-				entries.add(q.trim());
-			}
-		}
-		for(String w : entries){
-			if(s.equals(w)){
-				scan.close();
-				return true;
-			}
-		}
-		scan.close();
-		return false;
-    }
-    
     private void jButton6ActionPerformed(ActionEvent e){ //print sample
-    	printString(doc.getLabel());
-    	jLabel6.setText("Label Printed at " + new SimpleDateFormat("HH:mm:ss").format(new Date()));
+    	printString(doc.toString());
+    	jLabel10.setText("Label Printed at " + new SimpleDateFormat("HH:mm:ss").format(new Date()));
     }
     
     public void printString(String s){
-    	java.io.InputStream is = null;
-    	try {
-			is = new java.io.ByteArrayInputStream(s.getBytes("UTF8"));
-		} catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-    	DocFlavor flavor = DocFlavor.INPUT_STREAM.AUTOSENSE;
+    	char[] printdata = s.toCharArray();
+    	DocFlavor flavor = DocFlavor.CHAR_ARRAY.TEXT_PLAIN;
     	PrintService pservice = PrintServiceLookup.lookupDefaultPrintService();
     	DocPrintJob pjob = pservice.createPrintJob();
-    	Doc doc = new SimpleDoc(is, flavor, null);
+    	Doc doc = new SimpleDoc(printdata, flavor, null);
     	try {
 			pjob.print(doc, null);
 		} catch (PrintException e) {
@@ -638,7 +582,7 @@ public class GUI extends javax.swing.JDialog{
     private javax.swing.JLabel jLabel2; //description
     private javax.swing.JLabel jLabel3; //chargeNumber
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel6; //notifications
+    private javax.swing.JLabel jLabel10; //notifications
     private javax.swing.JLabel jLabel7; //logged in as:
     private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
