@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
 import javax.print.Doc;
 import javax.print.DocFlavor;
 import javax.print.DocPrintJob;
@@ -27,6 +28,7 @@ import javax.print.PrintServiceLookup;
 import javax.print.SimpleDoc;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.videoio.VideoCapture;
@@ -525,17 +527,7 @@ public class GUI extends javax.swing.JDialog{
     }
     
     public void printString(String s){
-    	char[] printdata = s.toCharArray();
-    	DocFlavor flavor = DocFlavor.CHAR_ARRAY.TEXT_PLAIN;
-    	PrintService pservice = PrintServiceLookup.lookupDefaultPrintService();
-    	DocPrintJob pjob = pservice.createPrintJob();
-    	Doc doc = new SimpleDoc(printdata, flavor, null);
-    	try {
-			pjob.print(doc, null);
-		} catch (PrintException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    	PrintLabel p = new PrintLabel(doc.getID(), doc.getName(), doc.getProjectNumber(), doc.getSubmitterName(), doc.getTests());
     }
     
     public ArrayList<String> compileTests(){
